@@ -6,8 +6,7 @@ import Image from 'next/image';
 export default function SchoolPage() {
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-[#B2B8EE] to-[#F3F4FE]">
-
+    <div className="bg-gradient-to-b from-[#B2B8EE] to-[#F3F4FE]">
 
     </div>
   );
