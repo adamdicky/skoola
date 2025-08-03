@@ -11,9 +11,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="min-h-screen flex flex-col">
         <Navbar />
-        {children}
+        <main className="flex-grow bg-gradient-to-b from-[#B2B8EE] to-[#F3F4FE]">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>
