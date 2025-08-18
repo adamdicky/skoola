@@ -25,9 +25,9 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex flex-row gap-5 sm:flex-row md:flex-row justify-start md:justify-between items-start md:items-center sm:gap-5 md:gap-5 text-sm text-[#212F58]">
-                    <a href="/newsfeed/school"><strong>Pricing</strong></a>
-                    <a href="/newsfeed/class"><strong>About</strong></a>
-                    <a href="/student-application"><strong>Help</strong></a>
+                    <a href="/newsfeed/school" className="text-lg font-semibold">Pricing</a>
+                    <a href="/newsfeed/class" className="text-lg font-semibold">About</a>
+                    <a href="/student-application" className="text-lg font-semibold">Help</a>
                 </div>
             </div>
 
