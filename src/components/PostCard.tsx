@@ -22,7 +22,7 @@ const PostCard = () => {
     ];
 
     return (
-        <div className='w-full max-w-300 pb-6'>
+        <div className='w-full max-w-270 pb-6'>
             <div className='w-full bg-white rounded-lg p-6 border border-[#B2B8EE] flex flex-col '>
 
                 <div className='flex flex-row gap-2 '>
