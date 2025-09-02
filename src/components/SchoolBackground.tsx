@@ -3,7 +3,7 @@ import React from "react";
 
 const SchoolBackground = () => {
     return (
-        <div className='relative w-300 aspect-[9/2]'>
+        <div className='relative w-270 aspect-[9/2]'>
             <Image
                 src="/schoolpic3.jpg"
                 alt="School Image"

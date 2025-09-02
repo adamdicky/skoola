@@ -1,27 +1,21 @@
 'use client'; // only if you're using App Router
 
 import { useState } from 'react';
-import Image from 'next/image';
 import React from 'react';
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuCheckboxItem,
-    DropdownMenuLabel,
     DropdownMenuRadioGroup,
     DropdownMenuRadioItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
 import { ChevronDown } from 'lucide-react';
-import { NewspaperIcon } from "@phosphor-icons/react";
+import { ClockIcon, XCircleIcon, CheckCircleIcon, NotePencilIcon, NewspaperIcon, NoteIcon } from "@phosphor-icons/react";
 
 import PostCard from '@/components/PostCard';
-import SchoolBackground from '@/components/SchoolBackground';
-import { FilterTag } from '@/components/FilterTag';
-import { Command, CommandInput } from '@/components/ui/command';
-
 
 
 export default function SchoolPage() {
@@ -48,36 +42,58 @@ export default function SchoolPage() {
 
     return (
         <div className="flex flex-col items-center justify-center w-full px-4 sm:px-6 md:px-10 lg:px-20">
-            <div className="w-full max-w-170 px-5 pb-5 flex justify-center items-center m-auto">
-                <Command>
-                    <CommandInput placeholder="Search school..." />
-                </Command>
-            </div>
-            <SchoolBackground />
 
-            {/* DIVIDER */}
-
-            <div className='py-5 flex flex-col items-center'>
-                <a className='text-4xl font-bold text-[#243056]'>SMK Kuala Kurau</a>
-                <a className='sm: text-center sm: px-2 text-[#243056]'>8a, Jln Pantai, Kampung Batu Empat Belas, 34350 Kuala Kurau, Perak </a>
+            <div className='w-full max-w-270 py-5 flex flex-col items-start'>
+                <a className='text-4xl font-bold text-[#243056]'>My Posts</a>
+                <a className='text-[#243056] text-justify'>Manage your posts in SMK Kuala Kurau for Class 3 Al-Farabi.</a>
             </div>
 
             {/* DIVIDER */}
 
-            <div className='sm:w-auto md:w-auto py-6 px-3 rounded-2xl h-10 bg-white border-1 border-[#B2B8EE] flex flex-row items-center justify-center gap-6 text-xl font-semibold text-[#314073]'>
-                {tabs.map((tab) => (
-                    <button
-                        key={tab}
-                        onClick={() => setActiveTab(tab)}
-                        className={`px-4 py-1 rounded-2xl transition-all duration-200  ${activeTab === tab
-                            ? "bg-gradient-to-b from-[#8792FF] to-[#0095FF] text-white shadow-md"
-                            : "text-[#314073] hover:shadow-sm hover:cursor-pointer"
-                            }`}
-                    >
-                        {tab}
-                    </button>
-                ))}
+            <div className='flex flex-row items-center justify-between w-full max-w-270'>
+                <div className='flex flex-row items-center gap-3 bg-[#F5F5F5] rounded-2xl p-4'>
+                    <div className='flex flex-col'>
+                        <a className='text-lg leading-none font-semibold text-[#243056]'>Total Posts</a>
+                        <a className='text-2xl leading-none font-bold text-[#243056]'>3</a>
+                    </div>
+                    <NoteIcon size={50} weight="fill" className='text-[#B2B8EE] stroke-6 stroke-[#6D76D5]' />
+                </div>
+
+                <div className='flex flex-row items-center gap-3 bg-[#F5F5F5] rounded-2xl p-4'>
+                    <div className='flex flex-col'>
+                        <a className='text-lg leading-none font-semibold text-[#243056]'>Approved</a>
+                        <a className='text-2xl leading-none font-bold text-[#243056]'>3</a>
+                    </div>
+                    <CheckCircleIcon size={50} weight="fill" className='text-[#84E492] stroke-6 stroke-[#28A93B]' />
+                </div>
+
+                <div className='flex flex-row items-center gap-3 bg-[#F5F5F5] rounded-2xl p-4'>
+                    <div className='flex flex-col'>
+                        <a className='text-lg leading-none font-semibold text-[#243056]'>Pending</a>
+                        <a className='text-2xl leading-none font-bold text-[#243056]'>3</a>
+                    </div>
+                    <ClockIcon size={50} weight="fill" className='text-[#FFF36D] stroke-6 stroke-[#8F833D]' />
+                </div>
+
+
+                <div className='flex flex-row items-center gap-3 bg-[#F5F5F5] rounded-2xl p-4'>
+                    <div className='flex flex-col'>
+                        <a className='text-lg leading-none font-semibold text-[#243056]'>Remarked</a>
+                        <a className='text-2xl leading-none font-bold text-[#243056]'>3</a>
+                    </div>
+                    <NotePencilIcon size={50} weight="fill" className='text-[#243056]' />
+                </div>
+
+                <div className='flex flex-row items-center gap-3 bg-[#F5F5F5] rounded-2xl p-4'>
+                    <div className='flex flex-col'>
+                        <a className='text-lg leading-none font-semibold text-[#243056]'>Rejected</a>
+                        <a className='text-2xl leading-none font-bold text-[#243056]'>3</a>
+                    </div>
+                    <XCircleIcon size={50} weight="fill" className='text-[#243056]' />
+                </div>
+
             </div>
+
 
             {/* DIVIDER */}
 
