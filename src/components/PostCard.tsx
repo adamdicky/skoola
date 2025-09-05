@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 import { UserIcon } from "@phosphor-icons/react";
 import { ImageGallery } from "@/components/ImageGallery";
-import { Tag } from "@/components/Tag";
+import { Tag } from "@/components/PostTag";
 
 const PostCard = () => {
 
