@@ -53,7 +53,7 @@ const PostList: React.FC<PostListProps> = ({ title, date, status }) => {
 
                 {/* text-lg font-semibold text-[#243056] line-clamp-2 whitespace-normal sm:whitespace-normal md:truncate md:max-w-170 md:line-clamp-2 */}
 
-                <div className="flex flex-shrink-0 items-center gap-4 ml-4">
+                <div className="flex flex-shrink-0 items-center gap-3 ml-4">
                     <a className="text-[#6E7793] text-right whitespace-nowrap">{date}</a>
                     <Tag name={status} color={statusColorMap[status]} />
                     <Button variant="ghost" className=' text-[#314073] hover:cursor-pointer' onClick={() => setOpenPost(!openPost)}>
