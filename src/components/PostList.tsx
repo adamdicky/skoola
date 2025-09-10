@@ -1,6 +1,8 @@
 import React from "react";
 import { Tag } from "./StatusTag";
 import { ChevronDown } from "lucide-react";
+import { PencilSimpleIcon } from "@phosphor-icons/react";
+import { TrashSimpleIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button"
 import { ImageGallery } from "./ImageGallery";
 
@@ -25,7 +27,7 @@ const PostList: React.FC<PostListProps> = ({ title, date, status }) => {
     const mockTags = [
         { id: 1, name: "Examination", color: "red" },
         { id: 2, name: "Activity", color: "green" },
-        { id: 3, name: "Team-Building", color: "blue" },
+        { id: 3, name: "Teamwork", color: "blue" },
 
     ];
 
@@ -38,18 +40,23 @@ const PostList: React.FC<PostListProps> = ({ title, date, status }) => {
     };
 
     return (
-        <div className="rounded-lg outline-1 outline-[#9298D0] overflow-hidden">
-            <div className="flex items-center justify-between bg-[#F3F4FE] px-4 py-2 rounded-lg outline-1 outline-[#9298D0]">
+        <div className="rounded-lg outline-1 outline-[#9298D0] ">
+            <div className="flex items-center justify-between bg-[#F3F4FE] px-5 py-3 rounded-lg">
                 <div className="flex-1 min-w-0">
-                    <a className="text-lg font-semibold text-[#243056] line-clamp-2 sm:whitespace-normal md:truncate md:max-w-170 md:line-clamp-2">
+                    <a className={`text-lg font-semibold text-[#243056] line-clamp-2 ${openPost
+                        ? "whitespace-normal break-words"
+                        : "line-clamp-2 whitespace-normal sm:whitespace-normal md:truncate md:max-w-170 md:line-clamp-2"
+                        }`}>
                         {title}
                     </a>
                 </div>
 
+                {/* text-lg font-semibold text-[#243056] line-clamp-2 whitespace-normal sm:whitespace-normal md:truncate md:max-w-170 md:line-clamp-2 */}
+
                 <div className="flex flex-shrink-0 items-center gap-4 ml-4">
                     <a className="text-[#6E7793] text-right whitespace-nowrap">{date}</a>
                     <Tag name={status} color={statusColorMap[status]} />
-                    <Button variant="ghost" className=' text-[#314073]' onClick={() => setOpenPost(!openPost)}>
+                    <Button variant="ghost" className=' text-[#314073] hover:cursor-pointer' onClick={() => setOpenPost(!openPost)}>
                         <ChevronDown
                             className={`w-5 h-5 text-[#314073] transform transition-transform duration-200 ${openPost ? "rotate-180" : ""
                                 }`}
@@ -61,7 +68,7 @@ const PostList: React.FC<PostListProps> = ({ title, date, status }) => {
             {
                 openPost && (
                     <div className="bg-[#F3F4FE]">
-                        <div className="p-4">
+                        <div className="px-5 pb-5">
 
                             <p className="whitespace-pre-line text-justify text-[#314073]">
                                 The official Final Examination Calendar for all students (Standard 1 to Standard 6) is now available. Please refer to the attached schedule for specific exam dates, subjects, and time slots.
@@ -78,12 +85,22 @@ const PostList: React.FC<PostListProps> = ({ title, date, status }) => {
 
                             <hr className="my-4 border-t border-gray-400" />
 
-                            <div className="flex gap-2 flex-wrap">
-                                {mockTags.map(tag => (
-                                    <Tag key={tag.id} name={tag.name} color={tag.color as any} />
-                                ))}
+                            <div className="flex items-center justify-between flex-wrap">
+                                <div className="flex gap-2 flex-wrap">
+                                    {mockTags.map(tag => (
+                                        <Tag key={tag.id} name={tag.name} color={tag.color as any} />
+                                    ))}
+                                </div>
+
+                                <div className="flex gap-2">
+                                    <PencilSimpleIcon size={25} className="text-blue-400 hover:text-blue-500 transition-colors duration-200 cursor-pointer" />
+                                    <TrashSimpleIcon size={25} className="text-red-400 hover:text-red-500 transition-colors duration-200 cursor-pointer" />
+                                </div>
                             </div>
+
+                            <a className="font-medium text-[#6E7793] pt-3 block italic">Last updated: 20 January by Admin: Teacher Hanafiah</a>
                         </div>
+
                     </div>
                 )
             }
