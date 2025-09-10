@@ -21,8 +21,6 @@ import PostList from '@/components/PostList';
 
 export default function SchoolPage() {
 
-    const tabs = ["All", "School", "Classes", "Clubs"];
-
     const [filter, setFilter] = useState("filter"); // default option
     const [openFilter, setOpenFilter] = useState(false); // for dropdown menu state
     const [openTag, setOpenTag] = useState(false); // for dropdown menu state
@@ -35,6 +33,9 @@ export default function SchoolPage() {
 
     type Checked = DropdownMenuCheckboxItemProps["checked"]
 
+    const [activeTab, setActiveTab] = useState('All');
+    const tabs = ["Create Post", "Manage Posts"];
+
     const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true)
     const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false)
     const [showPanel, setShowPanel] = React.useState<Checked>(false)
@@ -44,13 +45,28 @@ export default function SchoolPage() {
         <div className="flex flex-col items-center justify-center w-full px-4 sm:px-6 md:px-10 lg:px-20">
 
             <div className='w-full max-w-270 py-5 flex flex-col items-start gap-1'>
-                <a className='text-4xl font-bold text-[#243056]'>My Posts</a>
-                <a className='text-[#243056] text-justify'>Manage your posts in SMK Kuala Kurau for Class 3 Al-Farabi.</a>
+                <a className='text-4xl font-bold text-[#243056]'>Manage Posts</a>
+                <a className='text-[#243056] text-justify'>Manage your posts and moderate teachers' posts.</a>
+            </div>
+
+            <div className='sm:w-auto md:w-auto py-6 px-3 rounded-xl h-10 bg-white border-1 border-[#B2B8EE] flex flex-row items-center justify-center gap-3 text-xl font-semibold text-[#314073]'>
+                {tabs.map((tab) => (
+                    <button
+                        key={tab}
+                        onClick={() => setActiveTab(tab)}
+                        className={`px-4 py-1 rounded-2xl transition-all duration-200  ${activeTab === tab
+                            ? "bg-gradient-to-b from-[#8792FF] to-[#0095FF] text-white shadow-md"
+                            : "text-[#314073] hover:shadow-sm hover:cursor-pointer"
+                            }`}
+                    >
+                        {tab}
+                    </button>
+                ))}
             </div>
 
             {/* DIVIDER */}
 
-            <div className='grid grid-cols-2 gap-3 lg:flex lg:flex-row items-center lg:justify-between w-full max-w-270 md:gap-5 '>
+            {/* <div className='grid grid-cols-2 gap-3 lg:flex lg:flex-row items-center lg:justify-between w-full max-w-270 md:gap-5 '>
                 <div className='flex flex-row items-center justify-center gap-3 bg-[#F5F5F5] rounded-2xl p-4 flex-1'>
                     <div className='flex flex-col'>
                         <a className='text-lg leading-none font-semibold text-[#243056]'>Total</a>
@@ -58,41 +74,7 @@ export default function SchoolPage() {
                     </div>
                     <NoteIcon size={50} weight="fill" className='text-gray-400' />
                 </div>
-
-                <div className='flex flex-row items-center justify-center gap-3 bg-[#F5F5F5] rounded-2xl p-4 flex-1'>
-                    <div className='flex flex-col'>
-                        <a className='text-lg leading-none font-semibold text-[#243056]'>Approved</a>
-                        <a className='text-2xl leading-none font-bold text-[#243056]'>5</a>
-                    </div>
-                    <CheckCircleIcon size={50} weight="fill" className='text-green-400 ' />
-                </div>
-
-                <div className='flex flex-row items-center justify-center gap-3 bg-[#F5F5F5] rounded-2xl p-4 flex-1'>
-                    <div className='flex flex-col'>
-                        <a className='text-lg leading-none font-semibold text-[#243056]'>Pending</a>
-                        <a className='text-2xl leading-none font-bold text-[#243056]'>3</a>
-                    </div>
-                    <ClockIcon size={50} weight="fill" className='text-yellow-400' />
-                </div>
-
-
-                <div className='flex flex-row items-center justify-center gap-3 bg-[#F5F5F5] rounded-2xl p-4 flex-1'>
-                    <div className='flex flex-col'>
-                        <a className='text-lg leading-none font-semibold text-[#243056]'>Remarked</a>
-                        <a className='text-2xl leading-none font-bold text-[#243056]'>2</a>
-                    </div>
-                    <NotePencilIcon size={50} weight="fill" className='text-blue-400' />
-                </div>
-
-                <div className='flex flex-row items-center justify-center gap-3 bg-[#F5F5F5] rounded-2xl p-4 flex-1'>
-                    <div className='flex flex-col'>
-                        <a className='text-lg leading-none font-semibold text-[#243056]'>Rejected</a>
-                        <a className='text-2xl leading-none font-bold text-[#243056]'>0</a>
-                    </div>
-                    <XCircleIcon size={50} weight="fill" className='text-red-400' />
-                </div>
-
-            </div>
+            </div> */}
 
 
             {/* DIVIDER */}
