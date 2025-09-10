@@ -1,4 +1,4 @@
-'use client'; // only if you're using App Router
+'use client';
 
 import { useState } from 'react';
 import React from 'react';
@@ -16,13 +16,11 @@ import { ChevronDown } from 'lucide-react';
 import { PlusIcon } from 'lucide-react';
 import { ClockIcon, XCircleIcon, CheckCircleIcon, NotePencilIcon, NewspaperIcon, NoteIcon } from "@phosphor-icons/react";
 
-import PostCard from '@/components/PostCard';
 import PostList from '@/components/PostList';
 
 
 export default function SchoolPage() {
 
-    const [activeTab, setActiveTab] = useState('All');
     const tabs = ["All", "School", "Classes", "Clubs"];
 
     const [filter, setFilter] = useState("filter"); // default option
@@ -52,10 +50,10 @@ export default function SchoolPage() {
 
             {/* DIVIDER */}
 
-            <div className='grid grid-cols-2 gap-3 md:flex md:flex-row items-center md:justify-between w-full max-w-270 md:gap-5 '>
+            <div className='grid grid-cols-2 gap-3 lg:flex lg:flex-row items-center lg:justify-between w-full max-w-270 md:gap-5 '>
                 <div className='flex flex-row items-center justify-center gap-3 bg-[#F5F5F5] rounded-2xl p-4 flex-1'>
                     <div className='flex flex-col'>
-                        <a className='text-lg leading-none font-semibold text-[#243056]'>Total Posts</a>
+                        <a className='text-lg leading-none font-semibold text-[#243056]'>Total</a>
                         <a className='text-2xl leading-none font-bold text-[#243056]'>10</a>
                     </div>
                     <NoteIcon size={50} weight="fill" className='text-gray-400' />
@@ -99,7 +97,7 @@ export default function SchoolPage() {
 
             {/* DIVIDER */}
 
-            <div className='w-full max-w-270 py-5 flex flex-col md:flex-row gap-6 items-center justify-between'>
+            <div className='w-full max-w-270 py-5 flex flex-row md:flex-row  gap-6 items-center justify-between'>
                 <div className='flex flex-col md:items-start sm:items-center items-center '>
                     <Button variant="outline" className=' font-semibold text-[#314073]'>Create<PlusIcon /></Button>
                 </div>
