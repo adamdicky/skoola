@@ -124,8 +124,8 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
                         <button
                             key={index}
                             className={`w-12 h-12 rounded-md overflow-hidden border-2 transition-all ${index === currentIndex
-                                    ? 'border-background scale-110'
-                                    : 'border-transparent opacity-60 hover:opacity-80'
+                                ? 'border-background scale-110'
+                                : 'border-transparent opacity-60 hover:opacity-80'
                                 }`}
                             onClick={() => onIndexChange(index)}
                         >
