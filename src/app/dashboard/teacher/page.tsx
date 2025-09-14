@@ -4,40 +4,55 @@ import { useState } from 'react';
 import React from 'react';
 import { Button } from "@/components/ui/button"
 import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+    DialogFooter,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Label } from "@/components/ui/label"
+import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuCheckboxItem,
     DropdownMenuRadioGroup,
     DropdownMenuRadioItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Upload } from 'lucide-react';
 import { PlusIcon } from 'lucide-react';
-import { ClockIcon, XCircleIcon, CheckCircleIcon, NotePencilIcon, NewspaperIcon, NoteIcon } from "@phosphor-icons/react";
+import { ClockIcon, XCircleIcon, CheckCircleIcon, NotePencilIcon, UploadSimpleIcon, NoteIcon } from "@phosphor-icons/react";
 
 import PostList from '@/components/PostList';
+import CreatePostDialog from '@/components/CreatePostModal';
 
 
 export default function SchoolPage() {
 
-    const tabs = ["All", "School", "Classes", "Clubs"];
+    const [filter, setFilter] = useState("all"); // default option
+    const [openFilter, setOpenFilter] = useState(false); // for dropdown status state
 
-    const [filter, setFilter] = useState("filter"); // default option
-    const [openFilter, setOpenFilter] = useState(false); // for dropdown menu state
-    const [openTag, setOpenTag] = useState(false); // for dropdown menu state
+    const [date, setDate] = useState("latest"); // default option
+    const [openDate, setOpenDate] = useState(false); // for dropdown date state
+
+    const [openCreatePost, setOpenCreatePost] = useState(false); // for create post modal
 
     const filterLabels: Record<string, string> = {
-        newest: "Newest First",
-        oldest: "Oldest First",
-        filter: "Filter",
+        approved: "Status: Approved",
+        pending: "Status: Pending",
+        remarked: "Status: Remarked",
+        rejected: "Status: Rejected",
+        all: "Status: All",
     };
 
-    type Checked = DropdownMenuCheckboxItemProps["checked"]
+    const filterDateLabels: Record<string, string> = {
+        latest: "Date: Latest",
+        oldest: "Date: Oldest",
+    };
 
-    const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true)
-    const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false)
-    const [showPanel, setShowPanel] = React.useState<Checked>(false)
+    const [images, setImages] = useState<File[]>([]);
 
 
     return (
@@ -99,15 +114,15 @@ export default function SchoolPage() {
 
             <div className='w-full max-w-270 py-5 flex flex-row md:flex-row  gap-6 items-center justify-between'>
                 <div className='flex flex-col md:items-start sm:items-center items-center '>
-                    <Button variant="outline" className=' font-semibold text-[#314073]'>Create<PlusIcon /></Button>
+                    <Button variant="outline" className=' font-semibold text-[#314073]' onClick={() => setOpenCreatePost(true)}>Create<PlusIcon /></Button>
                 </div>
                 <div className='flex flex-row items-center gap-2'>
 
-                    {/* Filter Post by Date Dropdown */}
+                    {/* Filter Post by Status */}
                     <DropdownMenu open={openFilter} onOpenChange={setOpenFilter}>
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline" className='font-semibold text-[#314073]'>
-                                {filter ? filterLabels[filter] : "Filter"}
+                                {filter ? filterLabels[filter] : "Status"}
                                 <ChevronDown
                                     className={`w-4 h-4 transition-transform duration-200 ${openFilter ? "rotate-180" : ""
                                         }`}
@@ -116,49 +131,47 @@ export default function SchoolPage() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-56">
                             <DropdownMenuRadioGroup value={filter} onValueChange={setFilter}>
-                                <DropdownMenuRadioItem value="newest">
-                                    Newest First
+                                <DropdownMenuRadioItem value="all">
+                                    All
                                 </DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="oldest">
-                                    Oldest First
+                                <DropdownMenuRadioItem value="approved">
+                                    Approved
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="pending">
+                                    Pending
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="remarked">
+                                    Remarked
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="rejected">
+                                    Rejected
                                 </DropdownMenuRadioItem>
                             </DropdownMenuRadioGroup>
                         </DropdownMenuContent>
                     </DropdownMenu>
 
                     {/* Post Tags Dropdown */}
-                    <DropdownMenu open={openTag} onOpenChange={setOpenTag}>
+                    <DropdownMenu open={openDate} onOpenChange={setOpenDate}>
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline" className='font-semibold text-[#314073]'>
-                                Tags
+                                {date ? filterDateLabels[date] : "Date"}
                                 <ChevronDown
-                                    className={`w-4 h-4 transition-transform duration-200 ${openTag ? "rotate-180" : ""
+                                    className={`w-4 h-4 transition-transform duration-200 ${openDate ? "rotate-180" : ""
                                         }`}
                                 />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-56">
-                            <DropdownMenuCheckboxItem
-                                checked={showStatusBar}
-                                onCheckedChange={setShowStatusBar}
-                            >
-                                Exam
-                            </DropdownMenuCheckboxItem>
-                            <DropdownMenuCheckboxItem
-                                checked={showActivityBar}
-                                onCheckedChange={setShowActivityBar}
-                            >
-                                Activity
-                            </DropdownMenuCheckboxItem>
-                            <DropdownMenuCheckboxItem
-                                checked={showPanel}
-                                onCheckedChange={setShowPanel}
-                            >
-                                Announcement
-                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuRadioGroup value={date} onValueChange={setDate}>
+                                <DropdownMenuRadioItem value="latest">
+                                    Latest
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="oldest">
+                                    Oldest
+                                </DropdownMenuRadioItem>
+                            </DropdownMenuRadioGroup>
                         </DropdownMenuContent>
                     </DropdownMenu>
-
 
                 </div>
             </div>
@@ -179,6 +192,10 @@ export default function SchoolPage() {
 
                 </div>
             </div>
+
+            <CreatePostDialog open={openCreatePost} onOpenChange={setOpenCreatePost} />
+
+
         </div>
     );
 }

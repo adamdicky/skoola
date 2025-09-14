@@ -98,7 +98,7 @@ const PostList: React.FC<PostListProps> = ({ title, date, status }) => {
                                 </div>
                             </div>
 
-                            <a className="font-medium text-[#6E7793] pt-3 block italic">Last updated: 20 January by Admin: Teacher Hanafiah</a>
+                            <a className="font-small text-[#6E7793] pt-3 block italic">Last updated: 20 January by Admin: Teacher Hanafiah</a>
                         </div>
 
                     </div>
