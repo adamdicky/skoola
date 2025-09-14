@@ -5,6 +5,8 @@ import { PencilSimpleIcon } from "@phosphor-icons/react";
 import { TrashSimpleIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button"
 import { ImageGallery } from "./ImageGallery";
+import EditPostModal from "./EditPostModal";
+import RemarkBox from "./RemarkBox";
 
 interface PostListProps {
     title: string;
@@ -32,6 +34,10 @@ const PostList: React.FC<PostListProps> = ({ title, date, status }) => {
     ];
 
     const [openPost, setOpenPost] = React.useState(false);
+    const [openEditPost, setOpenEditPost] = React.useState(false); // for edit post modal
+
+
+
     const statusColorMap: Record<string, "green" | "yellow" | "blue" | "red"> = {
         Approved: "green",
         Pending: "yellow",
@@ -69,6 +75,9 @@ const PostList: React.FC<PostListProps> = ({ title, date, status }) => {
                 openPost && (
                     <div className="bg-[#F3F4FE]">
                         <div className="px-5 pb-5">
+                            <div className=" pb-3">
+                                <RemarkBox />
+                            </div>
 
                             <p className="whitespace-pre-line text-justify text-[#314073]">
                                 The official Final Examination Calendar for all students (Standard 1 to Standard 6) is now available. Please refer to the attached schedule for specific exam dates, subjects, and time slots.
@@ -85,16 +94,16 @@ const PostList: React.FC<PostListProps> = ({ title, date, status }) => {
 
                             <hr className="my-4 border-t border-gray-400" />
 
-                            <div className="flex items-center justify-between flex-wrap">
+                            <div className="flex items-center md:justify-between md:gap-0 sm:justify-between sm:gap-0 justify-center gap-2 flex-wrap">
                                 <div className="flex gap-2 flex-wrap">
                                     {mockTags.map(tag => (
                                         <Tag key={tag.id} name={tag.name} color={tag.color as any} />
                                     ))}
                                 </div>
 
-                                <div className="flex gap-2">
-                                    <PencilSimpleIcon size={25} className="text-blue-400 hover:text-blue-500 transition-colors duration-200 cursor-pointer" />
-                                    <TrashSimpleIcon size={25} className="text-red-400 hover:text-red-500 transition-colors duration-200 cursor-pointer" />
+                                <div className="flex gap-2 sm: justify-center sm:items-center mt-2 sm:mt-0">
+                                    <PencilSimpleIcon size={25} weight="bold" onClick={() => setOpenEditPost(true)} className="text-blue-400 hover:text-blue-500 transition-colors duration-200 cursor-pointer" />
+                                    <TrashSimpleIcon size={25} weight="bold" className="text-red-400 hover:text-red-500 transition-colors duration-200 cursor-pointer" />
                                 </div>
                             </div>
 
@@ -104,6 +113,9 @@ const PostList: React.FC<PostListProps> = ({ title, date, status }) => {
                     </div>
                 )
             }
+
+            <EditPostModal open={openEditPost} onOpenChange={setOpenEditPost} />
+
         </div>
 
     );

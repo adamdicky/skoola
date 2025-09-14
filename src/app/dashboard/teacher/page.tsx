@@ -4,17 +4,6 @@ import { useState } from 'react';
 import React from 'react';
 import { Button } from "@/components/ui/button"
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogDescription,
-    DialogFooter,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuRadioGroup,
@@ -51,8 +40,6 @@ export default function SchoolPage() {
         latest: "Date: Latest",
         oldest: "Date: Oldest",
     };
-
-    const [images, setImages] = useState<File[]>([]);
 
 
     return (
@@ -114,14 +101,14 @@ export default function SchoolPage() {
 
             <div className='w-full max-w-270 py-5 flex flex-row md:flex-row  gap-6 items-center justify-between'>
                 <div className='flex flex-col md:items-start sm:items-center items-center '>
-                    <Button variant="outline" className=' font-semibold text-[#314073]' onClick={() => setOpenCreatePost(true)}>Create<PlusIcon /></Button>
+                    <Button variant="outline" className=' font-semibold text-[#314073] hover:cursor-pointer' onClick={() => setOpenCreatePost(true)}>Create<PlusIcon /></Button>
                 </div>
                 <div className='flex flex-row items-center gap-2'>
 
                     {/* Filter Post by Status */}
                     <DropdownMenu open={openFilter} onOpenChange={setOpenFilter}>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className='font-semibold text-[#314073]'>
+                            <Button variant="outline" className='font-semibold text-[#314073] hover:cursor-pointer'>
                                 {filter ? filterLabels[filter] : "Status"}
                                 <ChevronDown
                                     className={`w-4 h-4 transition-transform duration-200 ${openFilter ? "rotate-180" : ""
@@ -153,7 +140,7 @@ export default function SchoolPage() {
                     {/* Post Tags Dropdown */}
                     <DropdownMenu open={openDate} onOpenChange={setOpenDate}>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className='font-semibold text-[#314073]'>
+                            <Button variant="outline" className='font-semibold text-[#314073] hover:cursor-pointer'>
                                 {date ? filterDateLabels[date] : "Date"}
                                 <ChevronDown
                                     className={`w-4 h-4 transition-transform duration-200 ${openDate ? "rotate-180" : ""
