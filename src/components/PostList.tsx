@@ -12,11 +12,12 @@ interface PostListProps {
     title: string;
     date: string;
     status: "Approved" | "Pending" | "Remarked" | "Rejected";
+    showStatus?: boolean;
 }
 
 
 
-const PostList: React.FC<PostListProps> = ({ title, date, status }) => {
+const PostList: React.FC<PostListProps> = ({ title, date, status, showStatus = true }) => {
 
     const images = [
         "/images4.jpeg",
@@ -51,7 +52,7 @@ const PostList: React.FC<PostListProps> = ({ title, date, status }) => {
                 <div className="flex-1 min-w-0">
                     <a className={`text-lg font-semibold text-[#243056] line-clamp-2 ${openPost
                         ? "whitespace-normal break-words"
-                        : "line-clamp-2 whitespace-normal sm:whitespace-normal md:truncate md:max-w-170 md:line-clamp-2"
+                        : "truncate"
                         }`}>
                         {title}
                     </a>
@@ -61,7 +62,12 @@ const PostList: React.FC<PostListProps> = ({ title, date, status }) => {
 
                 <div className="flex flex-shrink-0 items-center gap-3 ml-4">
                     <a className="text-[#6E7793] text-right whitespace-nowrap">{date}</a>
-                    <Tag name={status} color={statusColorMap[status]} />
+
+                    {showStatus && status && (
+                        <Tag name={status} color={statusColorMap[status]} />
+
+                    )}
+
                     <Button variant="ghost" className=' text-[#314073] hover:cursor-pointer' onClick={() => setOpenPost(!openPost)}>
                         <ChevronDown
                             className={`w-5 h-5 text-[#314073] transform transition-transform duration-200 ${openPost ? "rotate-180" : ""

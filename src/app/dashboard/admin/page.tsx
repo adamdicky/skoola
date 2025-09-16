@@ -6,76 +6,66 @@ import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuCheckboxItem,
     DropdownMenuRadioGroup,
     DropdownMenuRadioItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
 import { ChevronDown } from 'lucide-react';
 import { PlusIcon } from 'lucide-react';
-import { ClockIcon, XCircleIcon, CheckCircleIcon, NotePencilIcon, NewspaperIcon, NoteIcon } from "@phosphor-icons/react";
 
 import PostList from '@/components/PostList';
+import { CheckCircleIcon, NoteIcon } from '@phosphor-icons/react';
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 
-export default function SchoolPage() {
+export default function AdminDashboardPage() {
 
-    const [filter, setFilter] = useState("filter"); // default option
-    const [openFilter, setOpenFilter] = useState(false); // for dropdown menu state
-    const [openTag, setOpenTag] = useState(false); // for dropdown menu state
+    const [date, setDate] = useState("latest"); // default option
+    const [openDate, setOpenDate] = useState(false); // for dropdown date state
 
-    const filterLabels: Record<string, string> = {
-        newest: "Newest First",
-        oldest: "Oldest First",
-        filter: "Filter",
+    const filterDateLabels: Record<string, string> = {
+        latest: "Date: Latest",
+        oldest: "Date: Oldest",
     };
-
-    type Checked = DropdownMenuCheckboxItemProps["checked"]
-
-    const [activeTab, setActiveTab] = useState('All');
-    const tabs = ["Create Post", "Manage Posts"];
-
-    const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true)
-    const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false)
-    const [showPanel, setShowPanel] = React.useState<Checked>(false)
-
 
     return (
         <div className="flex flex-col items-center justify-center w-full px-4 sm:px-6 md:px-10 lg:px-20">
 
-            <div className='w-full max-w-270 py-5 flex flex-col items-start gap-1'>
-                <a className='text-4xl font-bold text-[#243056]'>Manage Posts</a>
-                <a className='text-[#243056] text-justify'>Manage your posts and moderate teachers' posts.</a>
-            </div>
-
-            <div className='sm:w-auto md:w-auto py-6 px-3 rounded-xl h-10 bg-white border-1 border-[#B2B8EE] flex flex-row items-center justify-center gap-3 text-xl font-semibold text-[#314073]'>
-                {tabs.map((tab) => (
-                    <button
-                        key={tab}
-                        onClick={() => setActiveTab(tab)}
-                        className={`px-4 py-1 rounded-2xl transition-all duration-200  ${activeTab === tab
-                            ? "bg-gradient-to-b from-[#8792FF] to-[#0095FF] text-white shadow-md"
-                            : "text-[#314073] hover:shadow-sm hover:cursor-pointer"
-                            }`}
+            <div className='w-full max-w-270 flex flex-row justify-between items-center'>
+                <div className='w-full max-w-270 py-5 flex flex-col items-start gap-1'>
+                    <a className='text-4xl font-bold text-[#243056]'>My Posts</a>
+                    <a className='text-[#243056] text-left'>Manage your posts in SMK Kuala Kurau.</a>
+                </div>
+                <div className='w-full max-w-270  flex flex-col items-end gap-1'>
+                    <Link
+                        href="/dashboard/admin/manage-posts"
+                        className="group inline-flex items-center gap-2 text-2xl font-bold text-[#243056] hover:text-[#4a5aa0] transition-colors"
                     >
-                        {tab}
-                    </button>
-                ))}
+                        <span className="underline text-right">Go to Manage Posts</span>
+                        <ArrowRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                </div>
             </div>
 
-            {/* DIVIDER */}
-
-            {/* <div className='grid grid-cols-2 gap-3 lg:flex lg:flex-row items-center lg:justify-between w-full max-w-270 md:gap-5 '>
-                <div className='flex flex-row items-center justify-center gap-3 bg-[#F5F5F5] rounded-2xl p-4 flex-1'>
+            <div className='grid grid-cols-2 gap-3 lg:flex lg:flex-row items-center lg:justify-between w-full max-w-270 md:gap-5 '>
+                <div className='flex flex-row items-center justify-center gap-3 bg-white rounded-2xl p-4 flex-1'>
                     <div className='flex flex-col'>
-                        <a className='text-lg leading-none font-semibold text-[#243056]'>Total</a>
+                        <a className='text-lg leading-none font-semibold text-[#243056]'>Total Posts (All Time)</a>
                         <a className='text-2xl leading-none font-bold text-[#243056]'>10</a>
                     </div>
                     <NoteIcon size={50} weight="fill" className='text-gray-400' />
                 </div>
-            </div> */}
 
+                <div className='flex flex-row items-center justify-center gap-3  bg-white rounded-2xl p-4 flex-1'>
+                    <div className='flex flex-col'>
+                        <a className='text-lg leading-none font-semibold text-[#243056]'>Posts This Month</a>
+                        <a className='text-2xl leading-none font-bold text-[#243056]'>5</a>
+                    </div>
+                    <CheckCircleIcon size={50} weight="fill" className='text-green-400 ' />
+                </div>
+
+            </div>
 
             {/* DIVIDER */}
 
@@ -85,59 +75,26 @@ export default function SchoolPage() {
                 </div>
                 <div className='flex flex-row items-center gap-2'>
 
-                    {/* Filter Post by Date Dropdown */}
-                    <DropdownMenu open={openFilter} onOpenChange={setOpenFilter}>
+
+                    <DropdownMenu open={openDate} onOpenChange={setOpenDate}>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className='font-semibold text-[#314073]'>
-                                {filter ? filterLabels[filter] : "Filter"}
+                            <Button variant="outline" className='font-semibold text-[#314073] hover:cursor-pointer'>
+                                {date ? filterDateLabels[date] : "Date"}
                                 <ChevronDown
-                                    className={`w-4 h-4 transition-transform duration-200 ${openFilter ? "rotate-180" : ""
+                                    className={`w-4 h-4 transition-transform duration-200 ${openDate ? "rotate-180" : ""
                                         }`}
                                 />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-56">
-                            <DropdownMenuRadioGroup value={filter} onValueChange={setFilter}>
-                                <DropdownMenuRadioItem value="newest">
-                                    Newest First
+                            <DropdownMenuRadioGroup value={date} onValueChange={setDate}>
+                                <DropdownMenuRadioItem value="latest">
+                                    Latest
                                 </DropdownMenuRadioItem>
                                 <DropdownMenuRadioItem value="oldest">
-                                    Oldest First
+                                    Oldest
                                 </DropdownMenuRadioItem>
                             </DropdownMenuRadioGroup>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-
-                    {/* Post Tags Dropdown */}
-                    <DropdownMenu open={openTag} onOpenChange={setOpenTag}>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className='font-semibold text-[#314073]'>
-                                Tags
-                                <ChevronDown
-                                    className={`w-4 h-4 transition-transform duration-200 ${openTag ? "rotate-180" : ""
-                                        }`}
-                                />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-56">
-                            <DropdownMenuCheckboxItem
-                                checked={showStatusBar}
-                                onCheckedChange={setShowStatusBar}
-                            >
-                                Exam
-                            </DropdownMenuCheckboxItem>
-                            <DropdownMenuCheckboxItem
-                                checked={showActivityBar}
-                                onCheckedChange={setShowActivityBar}
-                            >
-                                Activity
-                            </DropdownMenuCheckboxItem>
-                            <DropdownMenuCheckboxItem
-                                checked={showPanel}
-                                onCheckedChange={setShowPanel}
-                            >
-                                Announcement
-                            </DropdownMenuCheckboxItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
 
@@ -148,16 +105,16 @@ export default function SchoolPage() {
             {/* Post Cards */}
             <div className='w-full max-w-270 pb-6'>
                 <div className='w-full bg-white rounded-lg p-6 border border-[#B2B8EE] flex flex-col gap-3'>
-                    <PostList title="Final Examination Schedule for Semester 2, Including All Subjects and Updated Timetable Adjustments for Students" date="12 March 2025" status="Approved" />
-                    <PostList title="Math Quiz" date="14 March 2025" status="Pending" />
-                    <PostList title="Important Announcement Regarding the Upcoming Parent-Teacher Meeting and Classroom Activities for the Weekt" date="15 March 2025" status="Remarked" />
-                    <PostList title="English Essay" date="16 March 2025" status="Rejected" />
-                    <PostList title="English Essay" date="16 March 2025" status="Rejected" />
-                    <PostList title="Invitation to Participate in the Schools Cultural Festival Featuring Performances, Exhibitions, and Workshops" date="12 March 2025" status="Approved" />
-                    <PostList title="Math Quiz" date="14 March 2025" status="Pending" />
-                    <PostList title="Science Project" date="15 March 2025" status="Remarked" />
-                    <PostList title="Invitation to Participate in the Schools Cultural Festival Featuring Performances, Exhibitions, and Workshops" date="16 March 2025" status="Rejected" />
-                    <PostList title="English Essay" date="16 March 2025" status="Rejected" />
+                    <PostList title="Final Examination Schedule for Semester 2, Including All Subjects and Updated Timetable Adjustments for Students" date="12 March 2025" status="Approved" showStatus={false} />
+                    <PostList title="Math Quiz" date="14 March 2025" status="Pending" showStatus={false} />
+                    <PostList title="Important Announcement Regarding the Upcoming Parent-Teacher Meeting and Classroom Activities for the Weekt" date="15 March 2025" status="Remarked" showStatus={false} />
+                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={false} />
+                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={false} />
+                    <PostList title="Invitation to Participate in the Schools Cultural Festival Featuring Performances, Exhibitions, and Workshops" date="12 March 2025" status="Approved" showStatus={false} />
+                    <PostList title="Math Quiz" date="14 March 2025" status="Pending" showStatus={false} />
+                    <PostList title="Science Project" date="15 March 2025" status="Remarked" showStatus={false} />
+                    <PostList title="Invitation to Participate in the Schools Cultural Festival Featuring Performances, Exhibitions, and Workshops" date="16 March 2025" status="Rejected" showStatus={false} />
+                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={false} />
 
                 </div>
             </div>

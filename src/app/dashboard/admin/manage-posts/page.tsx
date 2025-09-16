@@ -10,15 +10,16 @@ import {
     DropdownMenuRadioItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { ChevronDown, Upload } from 'lucide-react';
-import { PlusIcon } from 'lucide-react';
-import { ClockIcon, XCircleIcon, CheckCircleIcon, NotePencilIcon, UploadSimpleIcon, NoteIcon } from "@phosphor-icons/react";
+import Link from "next/link";
+
+import { ArrowLeft, ChevronDown } from 'lucide-react';
+import { CheckCircleIcon, ClockIcon, NoteIcon, NotePencilIcon, XCircleIcon } from '@phosphor-icons/react';
 
 import PostList from '@/components/PostList';
-import CreatePostDialog from '@/components/CreatePostModal';
 
 
-export default function TeacherDashboardPage() {
+
+export default function ManagePostPage() {
 
     const [filter, setFilter] = useState("all"); // default option
     const [openFilter, setOpenFilter] = useState(false); // for dropdown status state
@@ -26,7 +27,8 @@ export default function TeacherDashboardPage() {
     const [date, setDate] = useState("latest"); // default option
     const [openDate, setOpenDate] = useState(false); // for dropdown date state
 
-    const [openCreatePost, setOpenCreatePost] = useState(false); // for create post modal
+    const [type, setType] = useState("all"); // default option
+    const [openType, setOpenType] = useState(false); // for dropdown type state
 
     const filterLabels: Record<string, string> = {
         approved: "Status: Approved",
@@ -41,16 +43,31 @@ export default function TeacherDashboardPage() {
         oldest: "Date: Oldest",
     };
 
+    const filterTypeLabels: Record<string, string> = {
+        all: " Post Type: All",
+        clubs: "Post Type: Clubs",
+        classes: "Post Type: Classes",
+    };
 
     return (
         <div className="flex flex-col items-center justify-center w-full px-4 sm:px-6 md:px-10 lg:px-20">
 
-            <div className='w-full max-w-270 py-5 flex flex-col items-start gap-1'>
-                <a className='text-4xl font-bold text-[#243056]'>My Posts</a>
-                <a className='text-[#243056] text-justify'>Manage your posts in SMK Kuala Kurau for Class 3 Al-Farabi.</a>
-            </div>
+            <div className='w-full max-w-270 flex flex-col justify-between items-center'>
+                <div className='w-full max-w-270 py-3 flex flex-col items-start gap-1'>
+                    <Link
+                        href="/dashboard/admin/"
+                        className="group inline-flex items-center gap-2 text-2xl font-bold text-[#243056] hover:text-[#4a5aa0] transition-colors"
+                    >
+                        <ArrowLeft className="w-6 transform group-hover:-translate-x-1 transition-transform" />
+                        <span className="underline text-left leading-0">Go back to My Posts</span>
 
-            {/* DIVIDER */}
+                    </Link>
+                </div>
+                <div className='w-full max-w-270 pb-5 flex flex-col items-start gap-1'>
+                    <a className='text-4xl font-bold text-[#243056]'>Manage Posts</a>
+                    <a className='text-[#243056] text-left'>Manage other teachers' posts in SMK Kuala Kurau.</a>
+                </div>
+            </div>
 
             <div className='grid grid-cols-2 gap-3 lg:flex lg:flex-row items-center lg:justify-between w-full max-w-270 md:gap-5 '>
                 <div className='flex flex-row items-center justify-center gap-3 bg-white rounded-2xl p-4 flex-1'>
@@ -96,17 +113,37 @@ export default function TeacherDashboardPage() {
 
             </div>
 
-
             {/* DIVIDER */}
 
-            <div className='w-full max-w-270 py-5 flex flex-row md:flex-row  gap-6 items-center justify-between'>
-                <div className='flex flex-col md:items-start sm:items-center items-center '>
-                    <Button variant="outline" className=' font-semibold text-[#314073] hover:cursor-pointer' onClick={() => setOpenCreatePost(true)}>Create<PlusIcon /></Button>
-                </div>
+            <div className='w-full max-w-270 py-5 flex flex-row md:flex-row  gap-6 items-center justify-end'>
                 <div className='flex flex-row items-center gap-2'>
+                    {/* Filter Post by Type */}
+                    <DropdownMenu open={openType} onOpenChange={setOpenType}>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" className='font-semibold text-[#314073] hover:cursor-pointer'>
+                                {type ? filterTypeLabels[type] : "Status"}
+                                <ChevronDown
+                                    className={`w-4 h-4 transition-transform duration-200 ${openType ? "rotate-180" : ""
+                                        }`}
+                                />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-56">
+                            <DropdownMenuRadioGroup value={type} onValueChange={setType}>
+                                <DropdownMenuRadioItem value="all">
+                                    All
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="clubs">
+                                    Clubs
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="classes">
+                                    Classes
+                                </DropdownMenuRadioItem>
+                            </DropdownMenuRadioGroup>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
 
                     {/* Filter Post by Status */}
-
                     <DropdownMenu open={openFilter} onOpenChange={setOpenFilter}>
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline" className='font-semibold text-[#314073] hover:cursor-pointer'>
@@ -167,23 +204,19 @@ export default function TeacherDashboardPage() {
             {/* Post Cards */}
             <div className='w-full max-w-270 pb-6'>
                 <div className='w-full bg-white rounded-lg p-6 border border-[#B2B8EE] flex flex-col gap-3'>
-                    <PostList title="Final Examination Schedule for Semester 2, Including All Subjects and Updated Timetable Adjustments for Students" date="12 March 2025" status="Approved" />
-                    <PostList title="Math Quiz" date="14 March 2025" status="Pending" />
-                    <PostList title="Important Announcement Regarding the Upcoming Parent-Teacher Meeting and Classroom Activities for the Weekt" date="15 March 2025" status="Remarked" />
-                    <PostList title="English Essay" date="16 March 2025" status="Rejected" />
-                    <PostList title="English Essay" date="16 March 2025" status="Rejected" />
-                    <PostList title="Invitation to Participate in the Schools Cultural Festival Featuring Performances, Exhibitions, and Workshops" date="12 March 2025" status="Approved" />
-                    <PostList title="Math Quiz" date="14 March 2025" status="Pending" />
-                    <PostList title="Science Project" date="15 March 2025" status="Remarked" />
-                    <PostList title="Invitation to Participate in the Schools Cultural Festival Featuring Performances, Exhibitions, and Workshops" date="16 March 2025" status="Rejected" />
-                    <PostList title="English Essay" date="16 March 2025" status="Rejected" />
+                    <PostList title="Final Examination Schedule for Semester 2, Including All Subjects and Updated Timetable Adjustments for Students" date="12 March 2025" status="Approved" showStatus={false} />
+                    <PostList title="Math Quiz" date="14 March 2025" status="Pending" showStatus={false} />
+                    <PostList title="Important Announcement Regarding the Upcoming Parent-Teacher Meeting and Classroom Activities for the Weekt" date="15 March 2025" status="Remarked" showStatus={false} />
+                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={false} />
+                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={false} />
+                    <PostList title="Invitation to Participate in the Schools Cultural Festival Featuring Performances, Exhibitions, and Workshops" date="12 March 2025" status="Approved" showStatus={false} />
+                    <PostList title="Math Quiz" date="14 March 2025" status="Pending" showStatus={false} />
+                    <PostList title="Science Project" date="15 March 2025" status="Remarked" showStatus={false} />
+                    <PostList title="Invitation to Participate in the Schools Cultural Festival Featuring Performances, Exhibitions, and Workshops" date="16 March 2025" status="Rejected" showStatus={false} />
+                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={false} />
 
                 </div>
             </div>
-
-            <CreatePostDialog open={openCreatePost} onOpenChange={setOpenCreatePost} />
-
-
         </div>
     );
 }
