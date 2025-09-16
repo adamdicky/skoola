@@ -40,7 +40,7 @@ export default function AdminDashboardPage() {
                 <div className='w-full max-w-270  flex flex-col items-end gap-1'>
                     <Link
                         href="/dashboard/admin/manage-posts"
-                        className="group inline-flex items-center gap-2 text-2xl font-bold text-[#243056] hover:text-[#4a5aa0] transition-colors"
+                        className="group inline-flex items-center gap-2 text-xl font-bold text-[#243056] hover:text-[#4a5aa0] transition-colors"
                     >
                         <span className="underline text-right">Go to Manage Posts</span>
                         <ArrowRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform" />
