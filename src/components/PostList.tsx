@@ -1,8 +1,7 @@
 import React from "react";
 import { Tag } from "./StatusTag";
 import { ChevronDown } from "lucide-react";
-import { PencilSimpleIcon } from "@phosphor-icons/react";
-import { TrashSimpleIcon } from "@phosphor-icons/react";
+import { PencilSimpleIcon, TrashSimpleIcon, DotOutlineIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button"
 import { ImageGallery } from "./ImageGallery";
 import EditPostModal from "./EditPostModal";
@@ -13,11 +12,10 @@ interface PostListProps {
     date: string;
     status: "Approved" | "Pending" | "Remarked" | "Rejected";
     showStatus?: boolean;
+    postType?: string;
 }
 
-
-
-const PostList: React.FC<PostListProps> = ({ title, date, status, showStatus = true }) => {
+const PostList: React.FC<PostListProps> = ({ title, date, status, showStatus = true, postType }) => {
 
     const images = [
         "/images4.jpeg",
@@ -35,9 +33,7 @@ const PostList: React.FC<PostListProps> = ({ title, date, status, showStatus = t
     ];
 
     const [openPost, setOpenPost] = React.useState(false);
-    const [openEditPost, setOpenEditPost] = React.useState(false); // for edit post modal
-
-
+    const [openEditPost, setOpenEditPost] = React.useState(false);
 
     const statusColorMap: Record<string, "green" | "yellow" | "blue" | "red"> = {
         Approved: "green",
@@ -48,33 +44,53 @@ const PostList: React.FC<PostListProps> = ({ title, date, status, showStatus = t
 
     return (
         <div className="rounded-lg outline-1 outline-[#9298D0] ">
-            <div className="flex items-center justify-between bg-[#F3F4FE] px-5 py-3 rounded-lg">
-                <div className="flex-1 min-w-0">
-                    <a className={`text-lg font-semibold text-[#243056] line-clamp-2 ${openPost
+            <div className="flex flex-col md:flex-row items-center justify-between bg-[#F3F4FE] px-5 py-2 rounded-lg">
+
+                <div className="flex-1 min-w-0 flex justify-center md:justify-start">
+                    <a className={`max-w-130 text-lg font-semibold text-center md:text-start text-[#243056] ${openPost
                         ? "whitespace-normal break-words"
-                        : "truncate"
+                        : "line-clamp-2"
                         }`}>
                         {title}
                     </a>
                 </div>
 
-                {/* text-lg font-semibold text-[#243056] line-clamp-2 whitespace-normal sm:whitespace-normal md:truncate md:max-w-170 md:line-clamp-2 */}
+                <div className="flex flex-wrap items-center justify-center md:justify-end gap-3 mt-2 md:mt-0 ">
 
-                <div className="flex flex-shrink-0 items-center gap-3 ml-4">
-                    <a className="text-[#6E7793] text-right whitespace-nowrap">{date}</a>
+                    {/* Date */}
+                    <span className="text-[#6E7793] text-right whitespace-nowrap">{date}</span>
 
+                    <DotOutlineIcon size={20} weight="bold" className="text-[#6E7793] md:flex lg:flex" />
+
+                    {/* Post Type */}
+                    {postType &&
+                        <div className="flex items-center">
+
+                            <a className=" text-[#6E7793] w-25 text-start truncate">{postType}</a>
+                        </div>
+                    }
+
+                    {/* Post Status */}
                     {showStatus && status && (
                         <Tag name={status} color={statusColorMap[status]} />
 
                     )}
 
-                    <Button variant="ghost" className=' text-[#314073] hover:cursor-pointer' onClick={() => setOpenPost(!openPost)}>
+                    <Button variant="ghost" className=' text-[#314073] hover:cursor-pointer hidden md:flex lg:flex' onClick={() => setOpenPost(!openPost)}>
                         <ChevronDown
                             className={`w-5 h-5 text-[#314073] transform transition-transform duration-200 ${openPost ? "rotate-180" : ""
                                 }`}
                         />
                     </Button>
                 </div>
+
+                <Button variant="ghost" className=' text-[#314073] hover:cursor-pointer md:hidden lg:hidden' onClick={() => setOpenPost(!openPost)}>
+                    <ChevronDown
+                        className={`w-5 h-5 text-[#314073] transform transition-transform duration-200 ${openPost ? "rotate-180" : ""
+                            }`}
+                    />
+                </Button>
+
             </div>
 
             {
@@ -121,7 +137,6 @@ const PostList: React.FC<PostListProps> = ({ title, date, status, showStatus = t
             }
 
             <EditPostModal open={openEditPost} onOpenChange={setOpenEditPost} />
-
         </div>
 
     );

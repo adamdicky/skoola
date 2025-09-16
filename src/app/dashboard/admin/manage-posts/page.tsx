@@ -56,7 +56,7 @@ export default function ManagePostPage() {
                 <div className='w-full max-w-270 py-3 flex flex-col items-start gap-1'>
                     <Link
                         href="/dashboard/admin/"
-                        className="group inline-flex items-center gap-2 text-2xl font-bold text-[#243056] hover:text-[#4a5aa0] transition-colors"
+                        className="group inline-flex items-center gap-2 text-xl font-bold text-[#243056] hover:text-[#4a5aa0] transition-colors"
                     >
                         <ArrowLeft className="w-6 transform group-hover:-translate-x-1 transition-transform" />
                         <span className="underline text-left leading-0">Go back to My Posts</span>
@@ -204,16 +204,16 @@ export default function ManagePostPage() {
             {/* Post Cards */}
             <div className='w-full max-w-270 pb-6'>
                 <div className='w-full bg-white rounded-lg p-6 border border-[#B2B8EE] flex flex-col gap-3'>
-                    <PostList title="Final Examination Schedule for Semester 2, Including All Subjects and Updated Timetable Adjustments for Students" date="12 March 2025" status="Approved" showStatus={false} />
-                    <PostList title="Math Quiz" date="14 March 2025" status="Pending" showStatus={false} />
-                    <PostList title="Important Announcement Regarding the Upcoming Parent-Teacher Meeting and Classroom Activities for the Weekt" date="15 March 2025" status="Remarked" showStatus={false} />
-                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={false} />
-                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={false} />
-                    <PostList title="Invitation to Participate in the Schools Cultural Festival Featuring Performances, Exhibitions, and Workshops" date="12 March 2025" status="Approved" showStatus={false} />
-                    <PostList title="Math Quiz" date="14 March 2025" status="Pending" showStatus={false} />
-                    <PostList title="Science Project" date="15 March 2025" status="Remarked" showStatus={false} />
-                    <PostList title="Invitation to Participate in the Schools Cultural Festival Featuring Performances, Exhibitions, and Workshops" date="16 March 2025" status="Rejected" showStatus={false} />
-                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={false} />
+                    <PostList title="Final Examination Schedule for Semester 2, Including All Subjects and Updated Timetable Adjustments for Students" date="12 March 2025" status="Approved" showStatus={true} postType='Hockey Club' />
+                    <PostList title="Math Quiz" date="14 March 2025" status="Pending" showStatus={true} postType='3 Al Farabi' />
+                    <PostList title="Important Announcement Regarding the Upcoming Parent-Teacher Meeting and Classroom Activities for the Weekt" date="15 March 2025" status="Remarked" showStatus={true} postType='4 CQalyubi' />
+                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={true} postType='Climbing Club' />
+                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={true} postType='1 Al Dinawari' />
+                    <PostList title="Invitation to Participate in the Schools Cultural Festival Featuring Performances, Exhibitions, and Workshops" date="12 March 2025" status="Approved" showStatus={true} postType='5 Al Farabi' />
+                    <PostList title="Math Quiz" date="14 March 2025" status="Pending" showStatus={true} postType='Pantun Club' />
+                    <PostList title="Science Project" date="15 March 2025" status="Remarked" showStatus={true} postType='3 Al Farabi' />
+                    <PostList title="Invitation to Participate in the Schools Cultural Festival Featuring Performances, Exhibitions, and Workshops" date="16 March 2025" status="Rejected" showStatus={true} postType='3 Al Farabibibibibibibibibibibibibibi' />
+                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={true} postType='Drama Club' />
 
                 </div>
             </div>
