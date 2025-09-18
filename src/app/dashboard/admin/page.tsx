@@ -105,16 +105,16 @@ export default function AdminDashboardPage() {
             {/* Post Cards */}
             <div className='w-full max-w-270 pb-6'>
                 <div className='w-full bg-white rounded-lg p-6 border border-[#B2B8EE] flex flex-col gap-3'>
-                    <PostList title="Final Examination Schedule for Semester 2, Including All Subjects and Updated Timetable Adjustments for Students" date="12 March 2025" status="Approved" showStatus={false} />
-                    <PostList title="Math Quiz" date="14 March 2025" status="Pending" showStatus={false} />
-                    <PostList title="Important Announcement Regarding the Upcoming Parent-Teacher Meeting and Classroom Activities for the Weekt" date="15 March 2025" status="Remarked" showStatus={false} />
-                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={false} />
-                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={false} />
-                    <PostList title="Invitation to Participate in the Schools Cultural Festival Featuring Performances, Exhibitions, and Workshops" date="12 March 2025" status="Approved" showStatus={false} />
-                    <PostList title="Math Quiz" date="14 March 2025" status="Pending" showStatus={false} />
-                    <PostList title="Science Project" date="15 March 2025" status="Remarked" showStatus={false} />
-                    <PostList title="Invitation to Participate in the Schools Cultural Festival Featuring Performances, Exhibitions, and Workshops" date="16 March 2025" status="Rejected" showStatus={false} />
-                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={false} />
+                    <PostList title="Final Examination Schedule for Semester 2, Including All Subjects and Updated Timetable Adjustments for Students" date="12 March 2025" status="Approved" showStatus={false} showDot={false} showAddRemarkBox={false} />
+                    {/* <PostList title="Math Quiz" date="14 March 2025" status="Pending" showStatus={false} showDot={false} />
+                    <PostList title="Important Announcement Regarding the Upcoming Parent-Teacher Meeting and Classroom Activities for the Weekt" date="15 March 2025" status="Remarked" showStatus={false} showDot={false} />
+                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={false} showDot={false} />
+                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={false} showDot={false} />
+                    <PostList title="Invitation to Participate in the Schools Cultural Festival Featuring Performances, Exhibitions, and Workshops" date="12 March 2025" status="Approved" showStatus={false} showDot={false} />
+                    <PostList title="Math Quiz" date="14 March 2025" status="Pending" showStatus={false} showDot={false} />
+                    <PostList title="Science Project" date="15 March 2025" status="Remarked" showStatus={false} showDot={false} />
+                    <PostList title="Invitation to Participate in the Schools Cultural Festival Featuring Performances, Exhibitions, and Workshops" date="16 March 2025" status="Rejected" showStatus={false} showDot={false} />
+                    <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={false} showDot={false} /> */}
 
                 </div>
             </div>
