@@ -30,7 +30,7 @@ export default function AdminDashboardPage() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center w-full px-4 sm:px-6 md:px-10 lg:px-20">
+        <div className="min-h-screen flex flex-col items-center justify-start w-full px-4 sm:px-6 md:px-10 lg:px-20">
 
             <div className='w-full max-w-270 flex flex-row justify-between items-center'>
                 <div className='w-full max-w-270 py-5 flex flex-col items-start gap-1'>
