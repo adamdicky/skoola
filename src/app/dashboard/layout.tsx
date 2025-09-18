@@ -25,11 +25,6 @@ export default function RootLayout({
             <body className="min-h-screen flex flex-col">
                 <Navbar />
                 <main className="flex-grow bg-gradient-to-b from-[#B2B8EE] to-[#F3F4FE]">
-                    {/* <div className="w-full max-w-170 px-5 pb-5 flex justify-center items-center m-auto">
-                        <Command>
-                            <CommandInput placeholder="Search school..." />
-                        </Command>
-                    </div> */}
                     {children}
                 </main>
                 <Footer />

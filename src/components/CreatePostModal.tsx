@@ -37,7 +37,7 @@ export default function CreatePostModal({ open, onOpenChange }: CreatePostModalP
                     {/* Content */}
                     <div className="flex flex-col gap-1">
                         <Label htmlFor="content" className='text-[#243056] pb-1 font-semibold'>Description*</Label>
-                        <Textarea id="content" placeholder="Share the detials of the post.." rows={5} />
+                        <Textarea id="content" placeholder="Share the details of the post.." rows={5} />
                     </div>
 
                     {/* Tags */}

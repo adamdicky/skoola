@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button"
 import { ImageGallery } from "./ImageGallery";
 import EditPostModal from "./EditPostModal";
 import RemarkBox from "./RemarkBox";
+import AddRemarkBox from "./AddRemarkBox";
+import ActionModal from "./ActionModal";
 
 interface PostListProps {
     title: string;
@@ -13,9 +15,13 @@ interface PostListProps {
     status: "Approved" | "Pending" | "Remarked" | "Rejected";
     showStatus?: boolean;
     postType?: string;
+    showDot?: boolean;
+    showDelete?: boolean
+    useActionModal?: boolean;
+    showAddRemarkBox?: boolean;
 }
 
-const PostList: React.FC<PostListProps> = ({ title, date, status, showStatus = true, postType }) => {
+const PostList: React.FC<PostListProps> = ({ title, date, status, showStatus = true, postType, showDot = true, showDelete = true, useActionModal = false, showAddRemarkBox = true }) => {
 
     const images = [
         "/images4.jpeg",
@@ -34,6 +40,9 @@ const PostList: React.FC<PostListProps> = ({ title, date, status, showStatus = t
 
     const [openPost, setOpenPost] = React.useState(false);
     const [openEditPost, setOpenEditPost] = React.useState(false);
+
+    const [remarkText, setRemarkText] = React.useState("");
+
 
     const statusColorMap: Record<string, "green" | "yellow" | "blue" | "red"> = {
         Approved: "green",
@@ -60,7 +69,9 @@ const PostList: React.FC<PostListProps> = ({ title, date, status, showStatus = t
                     {/* Date */}
                     <span className="text-[#6E7793] text-right whitespace-nowrap">{date}</span>
 
-                    <DotOutlineIcon size={20} weight="bold" className="text-[#6E7793] md:flex lg:flex" />
+                    {showDot &&
+                        <DotOutlineIcon size={20} weight="bold" className="text-[#6E7793] md:flex lg:flex" />
+                    }
 
                     {/* Post Type */}
                     {postType &&
@@ -124,10 +135,38 @@ const PostList: React.FC<PostListProps> = ({ title, date, status, showStatus = t
                                 </div>
 
                                 <div className="flex gap-2 sm: justify-center sm:items-center mt-2 sm:mt-0">
-                                    <PencilSimpleIcon size={25} weight="bold" onClick={() => setOpenEditPost(true)} className="text-blue-400 hover:text-blue-500 transition-colors duration-200 cursor-pointer" />
-                                    <TrashSimpleIcon size={25} weight="bold" className="text-red-400 hover:text-red-500 transition-colors duration-200 cursor-pointer" />
+                                    {useActionModal ?
+                                        (
+                                            <ActionModal
+                                                trigger={
+                                                    <PencilSimpleIcon size={25} weight="bold" onClick={() => setOpenEditPost(true)} className="text-blue-400 hover:text-blue-500 transition-colors duration-200 cursor-pointer" />
+                                                }
+                                                remarkText={remarkText}
+                                                onApprove={() => alert("Approved")}
+                                                onRemark={() => alert("Remarked: " + remarkText)}
+                                                onReject={() => alert("Rejected " + remarkText)}
+                                            />
+                                        ) : (
+                                            <>
+                                                <PencilSimpleIcon size={25} weight="bold" onClick={() => setOpenEditPost(true)} className="text-blue-400 hover:text-blue-500 transition-colors duration-200 cursor-pointer" />
+                                                <EditPostModal open={openEditPost} onOpenChange={setOpenEditPost} />
+
+                                            </>
+                                        )}
+
+                                    {showDelete &&
+                                        <TrashSimpleIcon size={25} weight="bold" className="text-red-400 hover:text-red-500 transition-colors duration-200 cursor-pointer" />
+                                    }
                                 </div>
                             </div>
+
+                            {showAddRemarkBox &&
+                                (
+                                    <div className="pt-4">
+                                        <AddRemarkBox value={remarkText} onChange={setRemarkText} />
+                                    </div>
+                                )
+                            }
 
                             <a className="font-small text-[#6E7793] pt-3 block italic">Last updated: 20 January by Admin: Teacher Hanafiah</a>
                         </div>
@@ -136,7 +175,6 @@ const PostList: React.FC<PostListProps> = ({ title, date, status, showStatus = t
                 )
             }
 
-            <EditPostModal open={openEditPost} onOpenChange={setOpenEditPost} />
         </div>
 
     );

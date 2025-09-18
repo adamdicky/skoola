@@ -8,7 +8,7 @@ const RemarkBox = () => {
                 <ChatIcon size={20} weight="bold" className='text-[#007BD3]' />
                 <a className="text-[#007BD3] font-semibold">Admin Remarks</a>
             </div>
-            <a className="text-[#007BD3] font-medium  max-h-15 overflow-y-auto pr-2 leading-5">Please add specific time slots and room numbers for better clarity. Please add specific time slots and room numbers for better clarity. Please add specific time slots and room numbers for better clarity. Please add specific time slots and room numbers for better clarity.</a>
+            <a className="text-[#007BD3] font-medium  max-h-15 overflow-y-auto pr-2 leading-5 text-justify">Please add specific time slots and room numbers for better clarity. Please add specific time slots and room numbers for better clarity. Please add specific time slots and room numbers for better clarity. Please add specific time slots and room numbers for better clarity.</a>
         </div>
     );
 };
