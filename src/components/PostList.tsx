@@ -76,8 +76,7 @@ const PostList: React.FC<PostListProps> = ({ title, date, status, showStatus = t
                     {/* Post Type */}
                     {postType &&
                         <div className="flex items-center">
-
-                            <a className=" text-[#6E7793] w-25 text-start truncate">{postType}</a>
+                            <a className=" text-[#6E7793] w-25 text-start truncate" title={postType}>{postType}</a>
                         </div>
                     }
 
