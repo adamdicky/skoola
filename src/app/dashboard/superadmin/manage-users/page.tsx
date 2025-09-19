@@ -15,7 +15,7 @@ import Link from "next/link";
 import { ArrowLeft, ChevronDown } from 'lucide-react';
 import { CheckCircleIcon, ClockIcon, NoteIcon, NotePencilIcon, XCircleIcon } from '@phosphor-icons/react';
 
-import PostList from '@/components/PostList';
+import UserList from '@/components/UserList';
 
 
 
@@ -206,7 +206,11 @@ export default function ManageUsersPage() {
             {/* Post Cards */}
             <div className='w-full max-w-270 pb-6'>
                 <div className='w-full bg-white rounded-lg p-6 border border-[#B2B8EE] flex flex-col gap-3'>
-                    <PostList title="Final Examination Schedule for Semester 2, Including All Subjects and Updated Timetable Adjustments for Students" date="12 March 2025" status="Approved" showStatus={true} postType='Hockey Club' showDelete={false} useActionModal={true} />
+                    <UserList displayname="SMK Kuala Kurau (me)" created_at="Created at 12 March 2025" accStatus="Unlocked" role="Super Admin" />
+                    <UserList displayname="Admin: Ms. Siti" created_at="Created at 8 April 2025" accStatus="Unlocked" role="Admin" />
+                    <UserList displayname="Cikgu Hasnul" created_at="Created at 10 April 2025" accStatus="Unlocked" role="Teacher" />
+                    <UserList displayname="Cikgu Ahmad" created_at="Created at 1 June 2025" accStatus="Locked" role="Admin" />
+
                     {/* <PostList title="Math Quiz" date="14 March 2025" status="Pending" showStatus={true} postType='3 Al Farabi' showDelete={false} />
                     <PostList title="Important Announcement Regarding the Upcoming Parent-Teacher Meeting and Classroom Activities for the Weekt" date="15 March 2025" status="Remarked" showStatus={true} postType='4 CQalyubi' showDelete={false} />
                     <PostList title="English Essay" date="16 March 2025" status="Rejected" showStatus={true} postType='Climbing Club' showDelete={false} />
