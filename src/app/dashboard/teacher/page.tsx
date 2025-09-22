@@ -15,7 +15,7 @@ import { PlusIcon } from 'lucide-react';
 import { ClockIcon, XCircleIcon, CheckCircleIcon, NotePencilIcon, UploadSimpleIcon, NoteIcon } from "@phosphor-icons/react";
 
 import PostList from '@/components/PostList';
-import CreatePostDialog from '@/components/CreatePostModal';
+import CreatePostModal from '@/components/CreatePostModal';
 
 
 export default function TeacherDashboardPage() {
@@ -181,7 +181,7 @@ export default function TeacherDashboardPage() {
                 </div>
             </div>
 
-            <CreatePostDialog open={openCreatePost} onOpenChange={setOpenCreatePost} />
+            <CreatePostModal open={openCreatePost} onOpenChange={setOpenCreatePost} />
 
 
         </div>
