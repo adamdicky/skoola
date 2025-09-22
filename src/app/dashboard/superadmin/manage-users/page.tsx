@@ -15,11 +15,11 @@ import {
 
 import Link from "next/link";
 
-import { ArrowDown, ArrowLeft, ChevronDown, PlusIcon } from 'lucide-react';
-import { CheckCircleIcon, ClockIcon, ArrowDownIcon, NoteIcon, NotePencilIcon, XCircleIcon } from '@phosphor-icons/react';
+import { ArrowLeft, ChevronDown, PlusIcon } from 'lucide-react';
+import { CheckCircleIcon, ClockIcon, NoteIcon, NotePencilIcon, XCircleIcon } from '@phosphor-icons/react';
 
 import UserList from '@/components/UserList';
-import CreatePostModal from '@/components/CreatePostModal';
+import CreateUserModal from '@/components/CreateUserModal';
 
 type Checked = DropdownMenuCheckboxItemProps["checked"]
 
@@ -242,7 +242,7 @@ export default function ManageUsersPage() {
                 </div>
             </div>
 
-            <CreatePostModal open={openCreatePost} onOpenChange={setOpenCreatePost} />
+            <CreateUserModal open={openCreatePost} onOpenChange={setOpenCreatePost} />
 
         </div>
     );
