@@ -16,7 +16,7 @@ import {
 import Link from "next/link";
 
 import { ArrowLeft, ChevronDown, PlusIcon } from 'lucide-react';
-import { CheckCircleIcon, ClockIcon, NoteIcon, NotePencilIcon, XCircleIcon } from '@phosphor-icons/react';
+import { LockKeyIcon, LockKeyOpenIcon, UserGearIcon, NotePencilIcon, ChalkboardTeacherIcon, UsersThreeIcon } from '@phosphor-icons/react';
 
 import UserList from '@/components/UserList';
 import CreateUserModal from '@/components/CreateUserModal';
@@ -42,25 +42,6 @@ export default function ManageUsersPage() {
 
 
     const [openCreatePost, setOpenCreatePost] = useState(false); // for create post modal
-
-    const filterLabels: Record<string, string> = {
-        approved: "Status: Approved",
-        pending: "Status: Pending",
-        remarked: "Status: Remarked",
-        rejected: "Status: Rejected",
-        all: "Status: All",
-    };
-
-    const filterDateLabels: Record<string, string> = {
-        latest: "Date: Latest",
-        oldest: "Date: Oldest",
-    };
-
-    const filterTypeLabels: Record<string, string> = {
-        all: " Post Type: All",
-        clubs: "Post Type: Clubs",
-        classes: "Post Type: Classes",
-    };
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-start w-full px-4 sm:px-6 md:px-10 lg:px-20">
@@ -88,7 +69,7 @@ export default function ManageUsersPage() {
                         <a className='text-lg leading-none font-semibold text-[#243056]'>Total</a>
                         <a className='text-2xl leading-none font-bold text-[#243056]'>10</a>
                     </div>
-                    <NoteIcon size={50} weight="fill" className='text-gray-400' />
+                    <UsersThreeIcon size={50} weight="fill" className='text-gray-400' />
                 </div>
 
                 <div className='flex flex-row items-center justify-center gap-3  bg-white rounded-2xl p-4 flex-1'>
@@ -96,7 +77,7 @@ export default function ManageUsersPage() {
                         <a className='text-lg leading-none font-semibold text-[#243056]'>Active</a>
                         <a className='text-2xl leading-none font-bold text-[#243056]'>5</a>
                     </div>
-                    <CheckCircleIcon size={50} weight="fill" className='text-green-400 ' />
+                    <LockKeyOpenIcon size={50} weight="fill" className='text-green-400 ' />
                 </div>
 
                 <div className='flex flex-row items-center justify-center gap-3  bg-white rounded-2xl p-4 flex-1'>
@@ -104,7 +85,7 @@ export default function ManageUsersPage() {
                         <a className='text-lg leading-none font-semibold text-[#243056]'>Locked</a>
                         <a className='text-2xl leading-none font-bold text-[#243056]'>5</a>
                     </div>
-                    <XCircleIcon size={50} weight="fill" className='text-red-400' />
+                    <LockKeyIcon size={50} weight="fill" className='text-red-400' />
                 </div>
 
                 <div className='flex flex-row items-center justify-center gap-3  bg-white rounded-2xl p-4 flex-1'>
@@ -112,7 +93,7 @@ export default function ManageUsersPage() {
                         <a className='text-lg leading-none font-semibold text-[#243056]'>Admins</a>
                         <a className='text-2xl leading-none font-bold text-[#243056]'>3</a>
                     </div>
-                    <ClockIcon size={50} weight="fill" className='text-yellow-400' />
+                    <UserGearIcon size={50} weight="fill" className='text-yellow-400' />
                 </div>
 
 
@@ -121,7 +102,7 @@ export default function ManageUsersPage() {
                         <a className='text-lg leading-none font-semibold text-[#243056]'>Teachers</a>
                         <a className='text-2xl leading-none font-bold text-[#243056]'>2</a>
                     </div>
-                    <NotePencilIcon size={50} weight="fill" className='text-blue-400' />
+                    <ChalkboardTeacherIcon size={50} weight="fill" className='text-blue-400' />
                 </div>
 
 

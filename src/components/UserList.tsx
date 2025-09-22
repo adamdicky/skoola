@@ -68,7 +68,7 @@ const UserList: React.FC<PostListProps> = ({ displayname, created_at, accStatus,
                             variant="ghost"
                             onClick={() => setIsEditing((prev) => !prev)}
                             className={`rounded-full font-semibold min-w-[100px] max-w-[120px] hover:cursor-pointer ${isEditing ?
-                                "text-[#0095FF] bg-[#f0f8fe] border-1 border-[#0095FF] hover:text-[#0095FF]" : "text-gray-600 bg-white border-1 border-gray-300 "
+                                "text-[#0095FF] bg-[#f0f8fe] border-1 border-[#0095FF] hover:text-[#0095FF] hover:bg-[#cee6f9]" : "text-gray-600 bg-white border-1 border-gray-300 "
                                 }`}
                         >
                             {isEditing ? "Save" : "Edit"}
@@ -80,17 +80,22 @@ const UserList: React.FC<PostListProps> = ({ displayname, created_at, accStatus,
                         </Button>
                     </div>
 
-                    <span className={`text-[#6E7793] w-55  text-right whitespace-nowrap ${openUser ?
-                        "hidden" : ""
-                        }`}>{created_at}</span>
+                    {!openUser && (
+                        <span className="text-[#6E7793] w-55 text-right whitespace-nowrap hidden sm:flex md:flex lg:flex">
+                            {created_at}
+                        </span>
+                    )}
+
 
                     <DotOutlineIcon size={20} weight="bold" className={`text-[#6E7793]  ${openUser ?
                         "hidden" : "hidden md:flex lg:flex"
-                        }`} />
+                        }`}
+                    />
 
                     <span className={`text-[#6E7793] w-25 text-center whitespace-nowrap ${openUser ?
                         "hidden" : ""
-                        }`} >{role}</span>
+                        }`} >{role}
+                    </span>
 
                     <AccountStatus name={accStatus} color={statusColorMap[accStatus]} />
 
