@@ -97,7 +97,7 @@ export default function CreateUserModal({ open, onOpenChange }: CreateUserModalP
 
                         <Command className="border rounded-md">
                             <CommandInput placeholder="Search class or club..." value={search} onValueChange={setSearch} />
-                            <CommandList>
+                            <CommandList className="max-h-50">
                                 <CommandEmpty>No clubs or classes found.</CommandEmpty>
                                 <CommandGroup heading="Available Clubs">
                                     {clubs.map((club) => (
