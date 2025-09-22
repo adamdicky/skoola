@@ -206,7 +206,7 @@ export default function ManageUsersPage() {
             {/* Post Cards */}
             <div className='w-full max-w-270 pb-6'>
                 <div className='w-full bg-white rounded-lg p-6 border border-[#B2B8EE] flex flex-col gap-3'>
-                    <UserList displayname="SMK Kuala Kurau (me)" created_at="Created at 12 March 2025" accStatus="Unlocked" role="Super Admin" />
+                    <UserList displayname="SMK Kuala Kurau (me)" created_at="Created at 12 March 2025" accStatus="Unlocked" role="Super Admin" email='smkkualakurau@gmail.com' />
                     <UserList displayname="Admin: Ms. Siti" created_at="Created at 8 April 2025" accStatus="Unlocked" role="Admin" />
                     <UserList displayname="Cikgu Hasnul" created_at="Created at 10 April 2025" accStatus="Unlocked" role="Teacher" />
                     <UserList displayname="Cikgu Ahmad" created_at="Created at 1 June 2025" accStatus="Locked" role="Admin" />

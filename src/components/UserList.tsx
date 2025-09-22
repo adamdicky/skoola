@@ -1,39 +1,46 @@
 import React from "react";
-import { Tag } from "./StatusTag";
 import { AccountStatus } from "./AccountStatus";
 import { ChevronDown } from "lucide-react";
-import { PencilSimpleIcon, TrashSimpleIcon, DotOutlineIcon, LockKeyIcon, LockKeyOpenIcon } from "@phosphor-icons/react";
+import { DotOutlineIcon, FloppyDiskIcon, GearSixIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button"
-import { ImageGallery } from "./ImageGallery";
-import EditPostModal from "./EditPostModal";
-import RemarkBox from "./RemarkBox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+    Select,
+    SelectTrigger,
+    SelectValue,
+    SelectContent,
+    SelectItem,
+} from "@/components/ui/select";
+
+
 
 interface PostListProps {
     displayname: string;
     created_at: string;
     accStatus: "Unlocked" | "Locked";
     role: string;
+    email: string;
+    assignedTo: string;
 }
 
-const UserList: React.FC<PostListProps> = ({ displayname, created_at, accStatus, role }) => {
+const UserList: React.FC<PostListProps> = ({ displayname, created_at, accStatus, role, email, assignedTo }) => {
 
-    const images = [
-        "/images4.jpeg",
-        "/images3.jpg",
-        "/images2.jpg",
-        "/images1.jpg",
-        "/images5.jpg",
-    ];
+    const [openUser, setOpenUser] = React.useState(false);
+    const [isEditing, setIsEditing] = React.useState(false);
 
-    const mockTags = [
-        { id: 1, name: "Examination", color: "red" },
-        { id: 2, name: "Activity", color: "green" },
-        { id: 3, name: "Teamwork", color: "blue" },
+    const [formData, setFormData] = React.useState({
+        displayname,
+        created_at,
+        accStatus,
+        role,
+        email,
+        assignedTo,
+    });
 
-    ];
-
-    const [openPost, setOpenPost] = React.useState(false);
-    const [openEditPost, setOpenEditPost] = React.useState(false);
+    const handleChange = (field: string, value: string) => {
+        setFormData((prev) => ({ ...prev, [field]: value }));
+    };
 
     const statusColorMap: Record<string, "green" | "red"> = {
         Unlocked: "green",
@@ -45,7 +52,7 @@ const UserList: React.FC<PostListProps> = ({ displayname, created_at, accStatus,
             <div className="flex flex-col md:flex-row items-center justify-between bg-[#F3F4FE] px-5 py-2 rounded-lg">
 
                 <div className="flex-1 min-w-0 flex justify-center md:justify-start">
-                    <a className={`max-w-130 text-lg font-semibold text-center md:text-start text-[#243056] ${openPost
+                    <a className={`max-w-130 text-lg font-semibold text-center md:text-start text-[#243056] ${openUser
                         ? "whitespace-normal break-words"
                         : "line-clamp-2"
                         }`}>
@@ -54,25 +61,50 @@ const UserList: React.FC<PostListProps> = ({ displayname, created_at, accStatus,
                 </div>
 
                 <div className="flex flex-wrap items-center justify-center md:justify-end gap-3 mt-2 md:mt-0 ">
-                    <span className="text-[#6E7793] w-55  text-right whitespace-nowrap">{created_at}</span>
+                    <div className={` ${openUser ?
+                        "" : "hidden"
+                        }`}>
+                        <Button
+                            variant="ghost"
+                            onClick={() => setIsEditing((prev) => !prev)}
+                            className={`rounded-full font-semibold min-w-[100px] max-w-[120px] hover:cursor-pointer ${isEditing ?
+                                "text-[#0095FF] bg-[#f0f8fe] border-1 border-[#0095FF] hover:text-[#0095FF]" : "text-gray-600 bg-white border-1 border-gray-300 "
+                                }`}
+                        >
+                            {isEditing ? "Save" : "Edit"}
+                            {isEditing ?
+                                <FloppyDiskIcon /> : <GearSixIcon></GearSixIcon>
+                            }
 
-                    <DotOutlineIcon size={20} weight="bold" className="text-[#6E7793] md:flex lg:flex" />
 
-                    <span className="text-[#6E7793] w-25 text-center whitespace-nowrap">{role}</span>
+                        </Button>
+                    </div>
+
+                    <span className={`text-[#6E7793] w-55  text-right whitespace-nowrap ${openUser ?
+                        "hidden" : ""
+                        }`}>{created_at}</span>
+
+                    <DotOutlineIcon size={20} weight="bold" className={`text-[#6E7793]  ${openUser ?
+                        "hidden" : "hidden md:flex lg:flex"
+                        }`} />
+
+                    <span className={`text-[#6E7793] w-25 text-center whitespace-nowrap ${openUser ?
+                        "hidden" : ""
+                        }`} >{role}</span>
 
                     <AccountStatus name={accStatus} color={statusColorMap[accStatus]} />
 
-                    <Button variant="ghost" className=' text-[#314073] hover:cursor-pointer hidden md:flex lg:flex' onClick={() => setOpenPost(!openPost)}>
+                    <Button variant="ghost" className=' text-[#314073] hover:cursor-pointer hidden md:flex lg:flex' onClick={() => setOpenUser(!openUser)}>
                         <ChevronDown
-                            className={`w-5 h-5 text-[#314073] transform transition-transform duration-200 ${openPost ? "rotate-180" : ""
+                            className={`w-5 h-5 text-[#314073] transform transition-transform duration-200 ${openUser ? "rotate-180" : ""
                                 }`}
                         />
                     </Button>
                 </div>
 
-                <Button variant="ghost" className=' text-[#314073] hover:cursor-pointer md:hidden lg:hidden' onClick={() => setOpenPost(!openPost)}>
+                <Button variant="ghost" className=' text-[#314073] hover:cursor-pointer md:hidden lg:hidden' onClick={() => setOpenUser(!openUser)}>
                     <ChevronDown
-                        className={`w-5 h-5 text-[#314073] transform transition-transform duration-200 ${openPost ? "rotate-180" : ""
+                        className={`w-5 h-5 text-[#314073] transform transition-transform duration-200 ${openUser ? "rotate-180" : ""
                             }`}
                     />
                 </Button>
@@ -80,48 +112,103 @@ const UserList: React.FC<PostListProps> = ({ displayname, created_at, accStatus,
             </div>
 
             {
-                openPost && (
+                openUser && (
                     <div className="bg-[#F3F4FE]">
                         <div className="px-5 pb-5">
-                            <div className=" pb-3">
-                                <RemarkBox />
-                            </div>
-
-                            <p className="whitespace-pre-line text-justify text-[#314073]">
-                                The official Final Examination Calendar for all students (Standard 1 to Standard 6) is now available. Please refer to the attached schedule for specific exam dates, subjects, and time slots.
-
-                                Kindly ensure that students are well-prepared and arrive on time for each examination day. Teachers and parents are encouraged to help students revise accordingly.
-
-                                📌 Note: Any changes to the schedule will be updated here. Please check regularly.
-                                🗓️ Examination Week: 21 October – 25 October 2025 📍 Location: In respective classrooms
-                            </p>
-
-                            <div className="pt-3">
-                                <ImageGallery images={images} />
-                            </div>
-
-                            <hr className="my-4 border-t border-gray-400" />
-
-                            <div className="flex items-center md:justify-between md:gap-0 sm:justify-between sm:gap-0 justify-center gap-2 flex-wrap">
-                                <div className="flex gap-2 flex-wrap">
-                                    {mockTags.map(tag => (
-                                        <Tag key={tag.id} name={tag.name} color={tag.color as any} />
-                                    ))}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-5">
+                                {/* Display Name */}
+                                <div className="flex flex-col space-y-2">
+                                    <Label
+                                        htmlFor="displayname"
+                                        className={`font-semibold ${isEditing ?
+                                            "text-[#314073]" : "text-[#7B7C7D]"
+                                            }`}
+                                    >
+                                        Display Name
+                                    </Label>
+                                    <Input
+                                        id="displayname"
+                                        value={formData.displayname}
+                                        disabled={!isEditing}
+                                        onChange={(e) => handleChange("displayname", e.target.value)}
+                                        className="bg-white"
+                                    />
                                 </div>
 
-                                <div className="flex gap-2 sm: justify-center sm:items-center mt-2 sm:mt-0">
-                                    <PencilSimpleIcon size={25} weight="bold" onClick={() => setOpenEditPost(true)} className="text-blue-400 hover:text-blue-500 transition-colors duration-200 cursor-pointer" />
-                                    <EditPostModal open={openEditPost} onOpenChange={setOpenEditPost} />
+                                {/* Role */}
+                                <div className="flex flex-col space-y-2">
+                                    <Label
+                                        htmlFor="role"
+                                        className={`font-semibold ${isEditing ?
+                                            "text-[#314073]" : "text-[#7B7C7D]"
+                                            }`}
+                                    >Role
+                                    </Label>
+                                    <Select
+                                        disabled={!isEditing}
+                                        value={formData.role}
+                                        onValueChange={(value) => handleChange("role", value)}
+                                    >
+                                        <SelectTrigger className="bg-white w-full">
+                                            <SelectValue placeholder="Select role. hellowejrqweior" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="Teacher">Teacher</SelectItem>
+                                            <SelectItem value="Admin">Admin</SelectItem>
+                                            <SelectItem value="Student">Student</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
 
+                                {/* Email */}
+                                <div className="flex flex-col space-y-2">
+                                    <Label
+                                        htmlFor="email"
+                                        className={`font-semibold ${isEditing ?
+                                            "text-[#314073]" : "text-[#7B7C7D]"
+                                            }`}
+                                    >Email
+                                    </Label>
+                                    <Input
+                                        id="email"
+                                        value={formData.email}
+                                        disabled={!isEditing}
+                                        onChange={(e) => handleChange("email", e.target.value)}
+                                        className="bg-white"
+                                    />
+                                </div>
 
-
-
+                                {/* Assigned To */}
+                                <div className="flex flex-col space-y-2">
+                                    <Label
+                                        htmlFor="assignedTo"
+                                        className={`font-semibold ${isEditing ?
+                                            "text-[#314073]" : "text-[#7B7C7D]"
+                                            }`}
+                                    >Assigned To
+                                    </Label>
+                                    <Select
+                                        disabled={!isEditing}
+                                        value={formData.assignedTo}
+                                        onValueChange={(value) => handleChange("assignedTo", value)}
+                                    >
+                                        <SelectTrigger className="bg-white w-full">
+                                            <SelectValue placeholder="Select class or club." />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="Teacher">Musical Club</SelectItem>
+                                            <SelectItem value="Admin">Pantun Club</SelectItem>
+                                            <SelectItem value="Student">6 Cekal</SelectItem>
+                                        </SelectContent>
+                                    </Select>
                                 </div>
                             </div>
 
-                            <a className="font-small text-[#6E7793] pt-3 block italic">Last updated: 20 January by Admin: Teacher Hanafiah</a>
+
+
+                            <hr className="border-t border-gray-400" />
+                            <a className="font-small text-[#6E7793] pt-3 block italic">Created at 12 March 2025</a>
                         </div>
-
                     </div>
                 )
             }
