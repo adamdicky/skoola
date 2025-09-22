@@ -9,6 +9,16 @@ import {
     SelectContent,
     SelectItem,
 } from "@/components/ui/select";
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/command";
+
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -20,7 +30,28 @@ interface CreateUserModalProps {
 }
 
 export default function CreateUserModal({ open, onOpenChange }: CreateUserModalProps) {
-    const [images, setImages] = useState<File[]>([]);
+
+    const [clubs, setClubs] = useState([
+        "Musical Club",
+        "Pantun Club",
+        "Science Club",
+        "Drama Club",
+        "Chess Club",
+    ]);
+
+    const [classes, setClasses] = useState([
+        "Class 1 Amanah",
+        "Class 2 Bestari",
+        "Class 3 Cekal",
+        "Class 4 Damai",
+        "Class 5 Elit",
+    ]);
+
+    const [search, setSearch] = useState("");
+
+    const handleSelect = (item: string) => {
+        setSearch(item);
+    };
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -63,15 +94,36 @@ export default function CreateUserModal({ open, onOpenChange }: CreateUserModalP
                     {/* Assign To? */}
                     <div className="flex flex-col gap-1">
                         <Label htmlFor="role" className='text-[#243056] pb-1 font-semibold'>Assign To*</Label>
-                        <Select>
-                            <SelectTrigger className="bg-white w-full">
-                                <SelectValue placeholder="To existing club/class or create new one." />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="Teacher">Teacher</SelectItem>
-                                <SelectItem value="Admin">Admin</SelectItem>
-                            </SelectContent>
-                        </Select>
+
+                        <Command className="border rounded-md">
+                            <CommandInput placeholder="Search class or club..." value={search} onValueChange={setSearch} />
+                            <CommandList>
+                                <CommandEmpty>No clubs or classes found.</CommandEmpty>
+                                <CommandGroup heading="Available Clubs">
+                                    {clubs.map((club) => (
+                                        <CommandItem
+                                            key={club}
+                                            onSelect={() => handleSelect(club)}
+                                        >
+                                            {club}
+                                        </CommandItem>
+                                    ))}
+                                </CommandGroup>
+                                <CommandGroup heading="Available Classes">
+                                    {classes.map((cls) => (
+                                        <CommandItem
+                                            key={cls}
+                                            onSelect={() => handleSelect(cls)}
+                                        >
+                                            {cls}
+                                        </CommandItem>
+                                    ))}
+                                </CommandGroup>
+                            </CommandList>
+                        </Command>
+
+                        {search && <p className="text-sm text-gray-600">Selected: {search}</p>}
+
                     </div>
                 </div>
 
