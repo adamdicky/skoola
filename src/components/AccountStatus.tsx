@@ -17,7 +17,7 @@ export const AccountStatus: React.FC<AccountStatusProps> = ({ name, color = "" }
 
     return (
         <span
-            className={`min-w-[110px] max-w-[120px] text-center py-1.5 px-4 rounded-full border font-semibold text-sm ${colorMap[color]}`}
+            className={`min-w-[115px] max-w-[120px] text-center py-1.5 px-4 rounded-full border font-semibold text-sm ${colorMap[color]}`}
         >
             {name}
             <Icon className="inline-block ml-1" size={18} weight="bold" />

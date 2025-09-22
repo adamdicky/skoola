@@ -2,33 +2,46 @@
 
 import { useState } from 'react';
 import React from 'react';
+import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
+    DropdownMenuCheckboxItem,
     DropdownMenuContent,
-    DropdownMenuRadioGroup,
-    DropdownMenuRadioItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+
 import Link from "next/link";
 
-import { ArrowLeft, ChevronDown } from 'lucide-react';
-import { CheckCircleIcon, ClockIcon, NoteIcon, NotePencilIcon, XCircleIcon } from '@phosphor-icons/react';
+import { ArrowDown, ArrowLeft, ChevronDown, PlusIcon } from 'lucide-react';
+import { CheckCircleIcon, ClockIcon, ArrowDownIcon, NoteIcon, NotePencilIcon, XCircleIcon } from '@phosphor-icons/react';
 
 import UserList from '@/components/UserList';
+import CreatePostModal from '@/components/CreatePostModal';
 
-
+type Checked = DropdownMenuCheckboxItemProps["checked"]
 
 export default function ManageUsersPage() {
 
-    const [filter, setFilter] = useState("all"); // default option
     const [openFilter, setOpenFilter] = useState(false); // for dropdown status state
 
-    const [date, setDate] = useState("latest"); // default option
-    const [openDate, setOpenDate] = useState(false); // for dropdown date state
+    // Role 
+    const [showSuperAdminBar, setShowSuperAdminBar] = React.useState<Checked>(true)
+    const [showAdminBar, setShowAdminBar] = React.useState<Checked>(true)
+    const [showTeacherBar, setShowTeacherBar] = React.useState<Checked>(true)
 
-    const [type, setType] = useState("all"); // default option
-    const [openType, setOpenType] = useState(false); // for dropdown type state
+    // Account Status
+    const [showLockedBar, setShowLockedAdminBar] = React.useState<Checked>(true)
+    const [showUnlockedBar, setShowUnlockedAdminBar] = React.useState<Checked>(true)
+
+    // Latest/Oldest Account Creation Date
+    const [showLatestDateBar, setShowLatestDateBar] = React.useState<Checked>(false)
+    const [showOldestDateBar, setShowOldestDateBar] = React.useState<Checked>(false)
+
+
+    const [openCreatePost, setOpenCreatePost] = useState(false); // for create post modal
 
     const filterLabels: Record<string, string> = {
         approved: "Status: Approved",
@@ -117,39 +130,16 @@ export default function ManageUsersPage() {
 
             {/* DIVIDER */}
 
-            <div className='w-full max-w-270 py-5 flex flex-row md:flex-row  gap-6 items-center justify-center md:justify-end'>
+            <div className='w-full max-w-270 py-5 flex flex-row md:flex-row  gap-6 items-center justify-between'>
+                <div className='flex flex-col md:items-start sm:items-center items-center '>
+                    <Button variant="outline" className=' font-semibold text-[#314073] hover:cursor-pointer' onClick={() => setOpenCreatePost(true)}>Create<PlusIcon /></Button>
+                </div>
                 <div className='flex flex-row items-center gap-2'>
-                    {/* Filter Post by Type */}
-                    <DropdownMenu open={openType} onOpenChange={setOpenType}>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className='font-semibold text-[#314073] hover:cursor-pointer'>
-                                {type ? filterTypeLabels[type] : "Status"}
-                                <ChevronDown
-                                    className={`w-4 h-4 transition-transform duration-200 ${openType ? "rotate-180" : ""
-                                        }`}
-                                />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-56">
-                            <DropdownMenuRadioGroup value={type} onValueChange={setType}>
-                                <DropdownMenuRadioItem value="all">
-                                    All
-                                </DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="clubs">
-                                    Clubs
-                                </DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="classes">
-                                    Classes
-                                </DropdownMenuRadioItem>
-                            </DropdownMenuRadioGroup>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-
                     {/* Filter Post by Status */}
                     <DropdownMenu open={openFilter} onOpenChange={setOpenFilter}>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className='font-semibold text-[#314073] hover:cursor-pointer'>
-                                {filter ? filterLabels[filter] : "Status"}
+                            <Button variant="outline" className=' font-semibold text-[#314073] hover:cursor-pointer'>
+                                Filter
                                 <ChevronDown
                                     className={`w-4 h-4 transition-transform duration-200 ${openFilter ? "rotate-180" : ""
                                         }`}
@@ -157,59 +147,87 @@ export default function ManageUsersPage() {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-56">
-                            <DropdownMenuRadioGroup value={filter} onValueChange={setFilter}>
-                                <DropdownMenuRadioItem value="all">
-                                    All
-                                </DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="approved">
-                                    Approved
-                                </DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="pending">
-                                    Pending
-                                </DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="remarked">
-                                    Remarked
-                                </DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="rejected">
-                                    Rejected
-                                </DropdownMenuRadioItem>
-                            </DropdownMenuRadioGroup>
+
+                            {/* Roles */}
+                            <DropdownMenuLabel className='flex flex-row items-center justify-center gap-3 font-semibold'>
+                                Roles
+
+
+                            </DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuCheckboxItem
+                                checked={showSuperAdminBar}
+                                onCheckedChange={setShowSuperAdminBar}
+                            >
+                                Super Admin(s)
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem
+                                checked={showAdminBar}
+                                onCheckedChange={setShowAdminBar}
+                            >
+                                Admin(s)
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem
+                                checked={showTeacherBar}
+                                onCheckedChange={setShowTeacherBar}
+                            >
+                                Teachers
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuSeparator />
+
+                            {/* Account Status */}
+                            <DropdownMenuLabel className='flex flex-row items-center justify-center gap-3 font-semibold'>
+                                Account Status
+
+                            </DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuCheckboxItem
+                                checked={showUnlockedBar}
+                                onCheckedChange={setShowUnlockedAdminBar}
+                            >
+                                Unlocked
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem
+                                checked={showLockedBar}
+                                onCheckedChange={setShowLockedAdminBar}
+                            >
+                                Locked
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuSeparator />
+
+                            {/* Latest/Oldest Account Creation Date */}
+                            <DropdownMenuLabel className='flex flex-row items-center justify-center gap-3 font-semibold'>
+                                Account Creation Date
+
+
+                            </DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuCheckboxItem
+                                checked={showLatestDateBar}
+                                onCheckedChange={setShowLatestDateBar}
+                            >
+                                Latest
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem
+                                checked={showOldestDateBar}
+                                onCheckedChange={setShowOldestDateBar}
+                            >
+                                Oldest
+                            </DropdownMenuCheckboxItem>
+
+
                         </DropdownMenuContent>
                     </DropdownMenu>
-
-                    {/* Post Date Dropdown */}
-                    <DropdownMenu open={openDate} onOpenChange={setOpenDate}>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className='font-semibold text-[#314073] hover:cursor-pointer'>
-                                {date ? filterDateLabels[date] : "Date"}
-                                <ChevronDown
-                                    className={`w-4 h-4 transition-transform duration-200 ${openDate ? "rotate-180" : ""
-                                        }`}
-                                />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-56">
-                            <DropdownMenuRadioGroup value={date} onValueChange={setDate}>
-                                <DropdownMenuRadioItem value="latest">
-                                    Latest
-                                </DropdownMenuRadioItem>
-                                <DropdownMenuRadioItem value="oldest">
-                                    Oldest
-                                </DropdownMenuRadioItem>
-                            </DropdownMenuRadioGroup>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-
                 </div>
             </div>
 
             {/* Post Cards */}
             <div className='w-full max-w-270 pb-6'>
                 <div className='w-full bg-white rounded-lg p-6 border border-[#B2B8EE] flex flex-col gap-3'>
-                    <UserList displayname="SMK Kuala Kurau (me)" created_at="Created at 12 March 2025" accStatus="Unlocked" role="Super Admin" email='smkkualakurau@gmail.com' />
-                    <UserList displayname="Admin: Ms. Siti" created_at="Created at 8 April 2025" accStatus="Unlocked" role="Admin" />
-                    <UserList displayname="Cikgu Hasnul" created_at="Created at 10 April 2025" accStatus="Unlocked" role="Teacher" />
-                    <UserList displayname="Cikgu Ahmad" created_at="Created at 1 June 2025" accStatus="Locked" role="Admin" />
+                    <UserList displayname="SMK Kuala Kurau (me)" created_at="Created at 12 March 2025" accStatus="Unlocked" role="Super Admin" email='smkkualakurau@gmail.com' assignedTo='SMK Kuala Kurau' />
+                    <UserList displayname="Admin: Ms. Siti" created_at="Created at 8 April 2025" accStatus="Unlocked" role="Admin" email='mssiti2937@gmail.com' assignedTo='SMK Kuala Kurau' />
+                    <UserList displayname="Cikgu Hasnul" created_at="Created at 10 April 2025" accStatus="Unlocked" role="Teacher" email='hasnul91273@gmail.com' assignedTo='6 Cekal' />
+                    <UserList displayname="Cikgu Ahmad" created_at="Created at 1 June 2025" accStatus="Locked" role="Admin" email='ahmad91704@gmail.com' assignedTo='SMK Kuala Kurau' />
 
                     {/* <PostList title="Math Quiz" date="14 March 2025" status="Pending" showStatus={true} postType='3 Al Farabi' showDelete={false} />
                     <PostList title="Important Announcement Regarding the Upcoming Parent-Teacher Meeting and Classroom Activities for the Weekt" date="15 March 2025" status="Remarked" showStatus={true} postType='4 CQalyubi' showDelete={false} />
@@ -223,6 +241,9 @@ export default function ManageUsersPage() {
 
                 </div>
             </div>
+
+            <CreatePostModal open={openCreatePost} onOpenChange={setOpenCreatePost} />
+
         </div>
     );
 }
