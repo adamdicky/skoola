@@ -19,7 +19,6 @@ import { NewspaperIcon } from "@phosphor-icons/react";
 
 import PostCard from '@/components/PostCard';
 import SchoolBackground from '@/components/SchoolBackground';
-import { FilterTag } from '@/components/FilterTag';
 import { Command, CommandInput } from '@/components/ui/command';
 
 
