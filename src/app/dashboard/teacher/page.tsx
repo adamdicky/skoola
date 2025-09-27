@@ -10,9 +10,9 @@ import {
     DropdownMenuRadioItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { ChevronDown, Upload } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { PlusIcon } from 'lucide-react';
-import { ClockIcon, XCircleIcon, CheckCircleIcon, NotePencilIcon, UploadSimpleIcon, NoteIcon } from "@phosphor-icons/react";
+import { ClockIcon, XCircleIcon, CheckCircleIcon, NotePencilIcon, NoteIcon } from "@phosphor-icons/react";
 
 import PostList from '@/components/PostList';
 import CreatePostModal from '@/components/CreatePostModal';

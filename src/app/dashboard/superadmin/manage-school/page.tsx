@@ -422,7 +422,7 @@ export default function ManageSchoolPage() {
                                                     <span className="text-[#243056] font-medium">{club}</span>
                                                     <button
                                                         onClick={() => {
-                                                            setClubs(clubs.filter((_, i) => i !== idx));
+                                                            setClubs(prev => prev.filter((_, i) => i !== idx));
                                                         }}
                                                         className="text-red-500 hover:text-red-700 hover:cursor-pointer"
                                                     >
@@ -450,7 +450,7 @@ export default function ManageSchoolPage() {
                                     <div className="flex items-center gap-2">
                                         <Input
                                             placeholder="Enter new class name..."
-                                            value={newClub}
+                                            value={newClass}
                                             onChange={(e) => setNewClass(e.target.value)}
                                             className="bg-white"
                                         />
@@ -469,15 +469,15 @@ export default function ManageSchoolPage() {
                                     {/* List Classes */}
                                     <div className="flex flex-col gap-2">
                                         {classes.length > 0 ? (
-                                            classes.map((club, idx) => (
+                                            classes.map((cls, idx) => (
                                                 <div
                                                     key={idx}
                                                     className="flex items-center justify-between bg-white border border-gray-300 rounded-lg px-3 py-2"
                                                 >
-                                                    <span className="text-[#243056] font-medium">{classes}</span>
+                                                    <span className="text-[#243056] font-medium">{cls}</span>
                                                     <button
                                                         onClick={() => {
-                                                            setClubs(classes.filter((_, i) => i !== idx));
+                                                            setClasses(prev => prev.filter((_, i) => i !== idx));
                                                         }}
                                                         className="text-red-500 hover:text-red-700 hover:cursor-pointer"
                                                     >
