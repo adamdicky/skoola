@@ -20,7 +20,7 @@ const Navbar = () => {
             </div>
 
             <div className="self-auto sm:self-auto md:self-auto px-5">
-                <Button variant="skoola" className="hover:cursor-pointer">
+                <Button variant="ghost" className="text-white bg-[#212F58] hover:cursor-pointer">
                     <strong>Log In</strong>
                 </Button>
             </div>

@@ -15,7 +15,7 @@ import {
 
 
 
-interface PostListProps {
+interface UserListProps {
     displayname: string;
     created_at: string;
     accStatus: "Unlocked" | "Locked";
@@ -24,7 +24,7 @@ interface PostListProps {
     assignedTo: string;
 }
 
-const UserList: React.FC<PostListProps> = ({ displayname, created_at, accStatus, role, email, assignedTo }) => {
+const UserList: React.FC<UserListProps> = ({ displayname, created_at, accStatus, role, email, assignedTo }) => {
 
     const [openUser, setOpenUser] = React.useState(false);
     const [isEditing, setIsEditing] = React.useState(false);

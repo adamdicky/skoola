@@ -17,9 +17,12 @@ import PostList from '@/components/PostList';
 import { CheckCircleIcon, NoteIcon } from '@phosphor-icons/react';
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import CreatePostModal from '@/components/CreatePostModal';
 
 
 export default function AdminDashboardPage() {
+
+    const [openCreatePost, setOpenCreatePost] = useState(false);
 
     const [date, setDate] = useState("latest"); // default option
     const [openDate, setOpenDate] = useState(false); // for dropdown date state
@@ -71,7 +74,7 @@ export default function AdminDashboardPage() {
 
             <div className='w-full max-w-270 py-5 flex flex-row md:flex-row  gap-6 items-center justify-between'>
                 <div className='flex flex-col md:items-start sm:items-center items-center '>
-                    <Button variant="outline" className=' font-semibold text-[#314073]'>Create<PlusIcon /></Button>
+                    <Button variant="outline" className=' font-semibold text-[#314073] hover:cursor-pointer' onClick={() => setOpenCreatePost(true)}>Create<PlusIcon /></Button>
                 </div>
                 <div className='flex flex-row items-center gap-2'>
 
@@ -118,6 +121,8 @@ export default function AdminDashboardPage() {
 
                 </div>
             </div>
+
+            <CreatePostModal open={openCreatePost} onOpenChange={setOpenCreatePost} context='school' />
         </div>
     );
 }

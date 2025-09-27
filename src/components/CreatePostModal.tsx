@@ -11,10 +11,16 @@ import { UploadSimpleIcon, XCircleIcon } from "@phosphor-icons/react";
 interface CreatePostModalProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
+    context: "classclub" | "school";
 }
 
-export default function CreatePostModal({ open, onOpenChange }: CreatePostModalProps) {
+export default function CreatePostModal({ open, onOpenChange, context }: CreatePostModalProps) {
+
     const [images, setImages] = useState<File[]>([]);
+
+    const description = context === "school"
+        ? "Share your school's updates or achievements."
+        : "Share your classroom's/club's updates or achievements."
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -22,7 +28,7 @@ export default function CreatePostModal({ open, onOpenChange }: CreatePostModalP
                 <DialogHeader>
                     <DialogTitle className='text-2xl text-[#243056]'>Create a New Post</DialogTitle>
                     <DialogDescription className='leading-3'>
-                        Share your classroom's updates and achievements.
+                        {description}
                     </DialogDescription>
                 </DialogHeader>
 
@@ -71,10 +77,27 @@ export default function CreatePostModal({ open, onOpenChange }: CreatePostModalP
                             <a className='font-small text-[#6E7793] italic text-center'>Click here or drag and drop (3 images maximum)</a>
                         </div>
 
-                        <Input id="images" type="file" accept='image/' className='hidden' multiple onChange={(e) => {
+                        <Input id="images" type="file" accept='image/*' className='hidden' multiple onChange={(e) => {
                             if (!e.target.files) return;
+
                             const filesArray = Array.from(e.target.files);
-                            setImages([...images, ...filesArray]);
+
+                            //filter only images
+                            const validImages = filesArray.filter((file) =>
+                                file.type.startsWith("image/")
+                            );
+
+                            if (validImages.length !== filesArray.length) {
+                                alert("Only image files are allowed.");
+                            }
+
+                            //set limit to 3
+                            const newImages = [...images, ...validImages].slice(0, 3);
+
+                            setImages(newImages);
+
+                            //clear selection if over limit or invalid
+                            e.target.value = "";
                         }} />
 
 
