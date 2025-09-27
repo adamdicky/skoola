@@ -3,7 +3,7 @@ import React from "react";
 
 const SchoolBackground = () => {
     return (
-        <div className='relative w-270 aspect-[9/2]'>
+        <div className='relative w-full max-w-270 h-[180px] sm:h-[220px] md:h-[300px] lg:h-[380px] mx-auto rounded-lg overflow-hidden'>
             <Image
                 src="/schoolpic3.jpg"
                 alt="School Image"

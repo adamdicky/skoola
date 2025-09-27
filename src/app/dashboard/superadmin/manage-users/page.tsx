@@ -111,6 +111,7 @@ export default function ManageUsersPage() {
 
             {/* DIVIDER */}
 
+
             <div className='w-full max-w-270 py-5 flex flex-row md:flex-row  gap-6 items-center justify-between'>
                 <div className='flex flex-col md:items-start sm:items-center items-center '>
                     <Button variant="outline" className=' font-semibold text-[#314073] hover:cursor-pointer' onClick={() => setOpenCreatePost(true)}>Create<PlusIcon /></Button>

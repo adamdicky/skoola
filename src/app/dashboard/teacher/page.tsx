@@ -181,7 +181,7 @@ export default function TeacherDashboardPage() {
                 </div>
             </div>
 
-            <CreatePostModal open={openCreatePost} onOpenChange={setOpenCreatePost} />
+            <CreatePostModal open={openCreatePost} onOpenChange={setOpenCreatePost} context='classclub' />
 
 
         </div>
