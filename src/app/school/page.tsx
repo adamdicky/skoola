@@ -1,7 +1,7 @@
 'use client'; // only if you're using App Router
 
 import { useState } from 'react';
-import Image from 'next/image';
+import { useEffect } from 'react';
 import React from 'react';
 import { Button } from "@/components/ui/button"
 import {
@@ -21,12 +21,12 @@ import PostCard from '@/components/PostCard';
 import SchoolBackground from '@/components/SchoolBackground';
 import { Command, CommandInput } from '@/components/ui/command';
 
-
-
 export default function SchoolPage() {
 
     const [activeTab, setActiveTab] = useState('All');
     const tabs = ["All", "School", "Classes", "Clubs"];
+    const [posts, setPosts] = useState([]); // to hold fetched posts
+    const [loading, setLoading] = useState(false); // to manage loading state
 
     const [filter, setFilter] = useState("filter"); // default option
     const [openFilter, setOpenFilter] = useState(false); // for dropdown menu state
@@ -44,6 +44,33 @@ export default function SchoolPage() {
     const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false)
     const [showPanel, setShowPanel] = React.useState<Checked>(false)
 
+    useEffect(() => {
+        async function fetchPosts() {
+
+            setLoading(true);
+
+            const params = new URLSearchParams();
+            if (activeTab !== 'All') params.append('tab', activeTab);
+            if (filter !== 'filter') params.append('sort', filter);
+
+            const selectedTags = [];
+            if (showStatusBar) selectedTags.push('exam');
+            if (showActivityBar) selectedTags.push('activity');
+            if (showPanel) selectedTags.push('announcement');
+            if (selectedTags.length > 0) params.append('tag', selectedTags.join(','));
+
+            const res = await fetch(`/api/posts?${params.toString()}`);
+            const result = await res.json();
+
+            if (res.ok) setPosts(result.data || []);
+            else console.error('Failed to fetch posts');
+
+            setLoading(false);
+        }
+
+        fetchPosts();
+
+    }, [activeTab, filter, showStatusBar, showActivityBar, showPanel]);
 
     return (
         <div className="flex flex-col items-center justify-center w-full px-4 sm:px-6 md:px-10 lg:px-20">
@@ -152,9 +179,20 @@ export default function SchoolPage() {
             </div>
 
             {/* Post Cards */}
+            <div className="w-full max-w-270 py-5 flex flex-col gap-6">
+                {loading ? (
+                    <p>Loading posts...</p>
+                ) : posts.length > 0 ? (
+                    posts.map((post: any) => <PostCard key={post.id} />)
+                ) : (
+                    <p>No posts found.</p>
+                )}
+            </div>
+
+
+            {/* <PostCard />
             <PostCard />
-            <PostCard />
-            <PostCard />
+            <PostCard /> */}
         </div>
     );
 }
