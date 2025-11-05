@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
         if (!users) return unauthorized();
 
         // ✅ 2. Input validation
-        const { title, content, tags, class_id, club_id, images_path, bucket_id, images_id } = await req.json();
+        const { title, content, tags, images_path, bucket_id, images_id } = await req.json();
         if (!title || !content) return badRequest("Missing required fields: title or content");
 
         // ✅ 3. Database connection
@@ -35,11 +35,22 @@ export async function POST(req: NextRequest) {
         }
 
         if (users.role === "teacher") {
-            if (!class_id && !club_id) {
+            // 2. 🟢 MODIFIED: Get class/club IDs directly from the AUTHENTICATED USERS object
+            const teacher_class_id = users.class_id;
+            const teacher_club_id = users.club_id;
+
+            // 3. 🟢 MODIFIED: Check the session data, not the payload data
+            if (!teacher_class_id && !teacher_club_id) {
                 return badRequest("Current account is not assigned to any class or club. Please contact school's admin to get assigned.")
             }
 
-            postPayload = { ...postPayload, class_id, club_id, post_type: class_id ? "class" : "club" }
+            // 4. 🟢 MODIFIED: Set the correct IDs and post_type in the payload
+            postPayload = {
+                ...postPayload,
+                class_id: teacher_class_id,
+                club_id: teacher_club_id,
+                post_type: teacher_class_id ? "class" : "club"
+            }
         }
 
         if (users.role === "admin") {
