@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 
         if (users.role === "teacher") {
             if (!class_id && !club_id) {
-                return badRequest("Current account is not assigned to any class or club. Please contact school's admin to to get assigned.")
+                return badRequest("Current account is not assigned to any class or club. Please contact school's admin to get assigned.")
             }
 
             postPayload = { ...postPayload, class_id, club_id, post_type: class_id ? "class" : "club" }
