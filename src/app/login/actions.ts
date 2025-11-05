@@ -1,3 +1,5 @@
+// src/app/login/actions.ts
+
 'use server'
 
 import { revalidatePath } from 'next/cache'
@@ -42,36 +44,46 @@ export async function signup(formData: FormData) {
         redirect(`/error?message=${encodeURIComponent("Role selection is required for testing.")}`);
     }
 
-    const { error: signUpError } = await supabase.auth.signUp({ email, password });
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({ email, password });
 
     if (signUpError) {
         redirect(`/error?message=${encodeURIComponent(signUpError.message)}`);
     }
 
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    const user = signUpData.user;
 
-    if (userError || !user) {
-        redirect(`/error?message=${encodeURIComponent("Sign up successful, but failed to retrieve user session. Please log in.")}`);
+    if (!user) {
+        // IMPORTANT: This block confirms email confirmation is needed.
+        return redirect(`/error?message=${encodeURIComponent("Sign up successful. Please check your email to confirm your account before logging in. NOTE: For quick testing, disable Email Confirmation in your Supabase Auth settings.")}`);
     }
 
-    //CRITICAL: Insert corresponding record to public.users table.
+    // CRITICAL: Prepare data for public.users insert with conditional assignment
     const username = generateUsername(email);
     const displayname = `Test ${role.charAt(0).toUpperCase() + role.slice(1)}`;
 
+    // Base payload for database insertion
+    const dbPayload: { [key: string]: any } = {
+        auth_id: user.id,
+        email: email,
+        role: role,
+        school_id: 1, // TESTING: Assumes school ID 1 exists
+        username: username,
+        displayname: displayname,
+    };
+
+    if (role === 'teacher') {
+        // ⚠️ HARDCODED FOR TESTING: Assign a placeholder Class ID for teacher role validation
+        dbPayload.class_id = 1;
+        dbPayload.club_id = null; // Ensure only one is assigned
+    }
+
     const { error: dbInsertError } = await supabase
         .from('users')
-        .insert({
-            auth_id: user.id,
-            email: email,
-            role: role,
-            school_id: 1, //TESTING
-            username: username,
-            displayname: displayname,
-        });
+        .insert(dbPayload);
 
     if (dbInsertError) {
         console.error("Database insert failed:", dbInsertError);
-        redirect(`/error?message=${encodeURIComponent("Account created, but database record failed. Check server logs.")}`);
+        redirect(`/error?message=${encodeURIComponent("Account created, but database record failed. Check server logs or verify school_id 1/class_id 1 exists.")}`);
     }
 
     revalidatePath('/', 'layout')
