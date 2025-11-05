@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 
         if (users.role === "teacher") {
             if (!class_id && !club_id) {
-                return badRequest("Current account is not assigned to any class or club. Please contact school's admin to ")
+                return badRequest("Current account is not assigned to any class or club. Please contact school's admin to to get assigned.")
             }
 
             postPayload = { ...postPayload, class_id, club_id, post_type: class_id ? "class" : "club" }
@@ -48,15 +48,46 @@ export async function POST(req: NextRequest) {
         }
 
         // ✅ 4. Query logic
-        const { data, error } = await supabase
+        const { data: insertedPost, error } = await supabase
             .from("posts")
             .insert(postPayload)
-            .select();
+            .select("id")
+            .single();
 
         if (error) throw error;
 
+        const newpostId = insertedPost.id;
+
+        if (tags) {
+            const tagNames = (tags as string).split(',').map(tag => tag.trim().toLowerCase()).filter(name => name.length > 0);
+
+            if (tagNames.length > 0) {
+                const tagsToInsert = tagNames.map(name => ({ name }));
+
+                const { data: tagRecords, error: tagError } = await supabase
+                    .from("tags")
+                    .upsert(tagsToInsert, { onConflict: "name" })
+                    .select("id");
+
+                if (tagError) throw tagError;
+
+                const tagIds = tagRecords.map((tag) => tag.id);
+
+                const postTagsPayload = tagIds.map(tag_id => ({
+                    post_id: newpostId,
+                    tag_id: tag_id,
+                }));
+
+                const { error: postTagsError } = await supabase
+                    .from("post_tags")
+                    .insert(postTagsPayload);
+
+                if (postTagsError) throw postTagsError;
+            }
+        }
+
         // ✅ 5. Success response
-        return successResponse(data, "Post created successfully", 201);
+        return successResponse({ id: newpostId }, "Post created successfully", 201);
 
     } catch (err) {
         return handleApiError(err, "POST /posts");
