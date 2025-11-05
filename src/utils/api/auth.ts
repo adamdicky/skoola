@@ -17,7 +17,18 @@ export async function authorized(requiredRoles?: Role | Role[]) {
         error,
     } = await supabase.auth.getUser();
 
-    if (error || !user) return null; // Not logged in
+    // 🟢 DEBUG CHECKPOINT 1: See if session was retrieved
+    if (error) {
+        console.error("[AUTH ERROR] Supabase Auth Session Failed:", error.message);
+        return null; // Not logged in
+    }
+    if (!user) {
+        console.warn("[AUTH WARN] No user session found. Returning unauthorized.");
+        return null; // Not logged in
+    }
+    // console.log("[AUTH DEBUG] User Session Retrieved. User ID:", user.id);
+
+    // if (error || !user) return null; // Not logged in
 
     // 2. Normalize requiredRoles → always an array
     const roles = Array.isArray(requiredRoles) ? requiredRoles : [requiredRoles];
@@ -30,11 +41,23 @@ export async function authorized(requiredRoles?: Role | Role[]) {
         .eq("auth_id", user.id)
         .single();
 
-    if (dbError || !dbUser) return null;
+    // 🟢 DEBUG CHECKPOINT 2: See if DB lookup failed
+    if (dbError) {
+        console.error("[AUTH ERROR] Failed to fetch user from public.users:", dbError);
+        return null; // DB lookup failed
+    }
+    if (!dbUser) {
+        console.warn("[AUTH WARN] User exists in Auth but not in public.users. ID:", user.id);
+        return null;
+    }
+    // console.log("[AUTH DEBUG] DB Profile Retrieved. Role:", dbUser.role);
+
+    // if (dbError || !dbUser) return null;
 
     // 4. Role check (optional)
     //    If `requiredRoles` was passed, only allow those roles.
     if (requiredRoles && !roles.includes(dbUser.role)) {
+        console.warn(`[AUTH WARN] Role check failed. User role: ${dbUser.role}. Required roles: ${requiredRoles}`);
         return null; // Unauthorized
     }
 
