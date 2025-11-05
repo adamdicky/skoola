@@ -1,4 +1,4 @@
-'use client'; // only if you're using App Router
+'use client';
 
 import { useState } from 'react';
 import { useEffect } from 'react';
